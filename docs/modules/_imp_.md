@@ -1,4 +1,4 @@
-[imp](../README.md) › [Globals](../globals.md) › ["imp"](_imp_.md)
+[@listener-js/imp](../README.md) › [Globals](../globals.md) › ["imp"](_imp_.md)
 
 # External module: "imp"
 

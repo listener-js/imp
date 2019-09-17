@@ -1,6 +1,6 @@
-[imp](README.md) › [Globals](globals.md)
+[@listener-js/imp](README.md) › [Globals](globals.md)
 
-# imp
+# @listener-js/imp
 
 
 ## Index

@@ -1,9 +1,11 @@
 {
-  "name": "imp",
+  "name": "@listener-js/imp",
   "version": "0.0.1",
-  "description": "",
+  "description": "JavaScript loader for decoupled and dynamic libraries 🌊",
   "keywords": [
-    ""
+    "loader",
+    "decoupled",
+    "dynamic"
   ],
   "author": "Imp <imp@imp.tools>",
   "main": "dist/imp.js",
