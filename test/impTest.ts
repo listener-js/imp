@@ -30,7 +30,6 @@ test("instance listener function", async (): Promise<
     },
     joinListener: (id, instanceId, instance): void => {
       expect(id).toEqual([
-        "test2.joinListener",
         "imp.loadExternal",
         "listener.listenerLoad",
         "test",
@@ -38,7 +37,7 @@ test("instance listener function", async (): Promise<
       expect(instanceId).toEqual("test")
       expect(instance).toEqual(test)
     },
-    listeners: ["fn", "joinListener"],
+    listeners: ["fn"],
   }
 
   listener({ test, test2 })
@@ -56,7 +55,7 @@ test("instance listener", (): void => {
   const test = new Test()
 
   class Test2 {
-    public listeners = ["fn", "joinListener"]
+    public listeners = ["fn"]
 
     public fn(id: string[]): void {
       expect(id).toEqual(["test2.fn", "hi"])
@@ -122,16 +121,21 @@ test("async listener wait for dependency", (): Promise<
   return promise
 })
 
-test("async listenerLoad callback", (): Promise<any> => {
+test("async listenerLoad callback", async (): Promise<
+  any
+> => {
   expect.assertions(1)
 
   const test = {
-    listenerLoad: async (): Promise<any> => {
+    listenerLoad: async (id: string[]): Promise<any> => {
       return delay(1).then((): void => {
-        expect(1).toBe(1)
+        expect(id).toEqual([
+          "test.listenerLoad",
+          "listener.listenerLoad",
+          "test",
+        ])
       })
     },
-    listeners: ["listenerLoad"],
   }
 
   return listener({ test })
@@ -157,7 +161,7 @@ test("async join callback", (): void => {
         expect(instance).toEqual(test)
       })
     },
-    listeners: ["fn", "joinListener"],
+    listeners: ["fn"],
   }
 
   return listener({ test, test2 })

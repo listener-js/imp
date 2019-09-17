@@ -22,7 +22,7 @@
     "docs": "typedoc --out docs --media media --theme markdown src/*.ts"
   },
   "devDependencies": {
-    "@listener-js/listener": "2.0.0",
+    "@listener-js/listener": "2.1.1",
     "@listener-js/log": "1.19.2",
     "@types/jest": "24.0.18",
     "@types/node": "12.7.5",
