@@ -121,7 +121,7 @@ ___
 
 ▸ **externalPromises**(`instanceId`: string, `instance`: any, `listener`: Listener): *Promise‹any›[]*
 
-Defined in imp.ts:151
+Defined in imp.ts:150
 
 **Parameters:**
 

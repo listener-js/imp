@@ -20,7 +20,8 @@ test("instance listener function", async (): Promise<
 
   const test = {
     externals: ["test2.fn"],
-    fn: undefined,
+    // eslint-disable-next-line
+    fn: (id: string[]): void => {},
   }
 
   const test2 = {

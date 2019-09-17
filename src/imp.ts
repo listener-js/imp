@@ -116,15 +116,14 @@ export class Imp {
         )
 
         if (fnId) {
-          if (!instance[fnId]) {
-            instance[fnId] = (
-              id: string[],
-              ...args: any[]
-            ): any => {
-              return listener.instances[loadInstanceId][
-                fnId
-              ]([`${instanceId}.${fnId}`, ...id], ...args)
-            }
+          instance[fnId] = (
+            id: string[],
+            ...args: any[]
+          ): any => {
+            return listener.instances[loadInstanceId][fnId](
+              [`${instanceId}.${fnId}`, ...id],
+              ...args
+            )
           }
         } else {
           instance[loadInstanceId] =
