@@ -45,6 +45,43 @@ export class Imp {
     this.instances[instanceId] = instance
   }
 
+  private callbackPromises(
+    id: string[],
+    instanceId: string,
+    instance: any,
+    listener: Listener,
+    options?: Record<string, any>
+  ): Promise<any>[] {
+    if (!instance.externals) {
+      return []
+    }
+
+    return instance.externals.reduce((memo, loadId) => {
+      const [loadInstanceId] = listener.parseId(loadId)
+
+      if (
+        this.instances[loadInstanceId] &&
+        this.instances[loadInstanceId].joinListener
+      ) {
+        const out = this.instances[
+          loadInstanceId
+        ].joinListener(
+          id,
+          instanceId,
+          instance,
+          listener,
+          options
+        )
+
+        if (out && out.then) {
+          return memo.concat(out)
+        }
+      }
+
+      return memo
+    }, [])
+  }
+
   private externalLoad(
     id: string[],
     instanceId: string,
@@ -146,43 +183,6 @@ export class Imp {
     }
 
     return promises
-  }
-
-  private callbackPromises(
-    id: string[],
-    instanceId: string,
-    instance: any,
-    listener: Listener,
-    options?: Record<string, any>
-  ): Promise<any>[] {
-    if (!instance.externals) {
-      return []
-    }
-
-    return instance.externals.reduce((memo, loadId) => {
-      const [loadInstanceId] = listener.parseId(loadId)
-
-      if (
-        this.instances[loadInstanceId] &&
-        this.instances[loadInstanceId].joinListener
-      ) {
-        const out = this.instances[
-          loadInstanceId
-        ].joinListener(
-          id,
-          instanceId,
-          instance,
-          listener,
-          options
-        )
-
-        if (out && out.then) {
-          return memo.concat(out)
-        }
-      }
-
-      return memo
-    }, [])
   }
 }
 
