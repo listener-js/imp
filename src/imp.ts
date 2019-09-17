@@ -13,15 +13,21 @@ export class Imp {
     instance: any,
     listener: Listener
   ): void {
+    listener.callbacks = listener.callbacks.concat(
+      "listenerJoin"
+    )
+
     listener.listen(
+      id,
       ["listener.listenerInit", "**"],
-      [`${instanceId}.externalInit`],
+      `${instanceId}.externalInit`,
       { prepend: true }
     )
 
     listener.listen(
+      id,
       ["listener.listenerLoad", "**"],
-      [`${instanceId}.externalLoad`],
+      `${instanceId}.externalLoad`,
       { prepend: true }
     )
   }
@@ -48,11 +54,11 @@ export class Imp {
 
       if (
         this.instances[loadInstanceId] &&
-        this.instances[loadInstanceId].joinListener
+        this.instances[loadInstanceId].listenerJoin
       ) {
         const out = this.instances[
           loadInstanceId
-        ].joinListener(
+        ].listenerJoin(
           id,
           instanceId,
           instance,

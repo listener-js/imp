@@ -63,7 +63,7 @@ Defined in imp.ts:8
 
 ▸ **externalCallbacks**(`id`: string[], `instanceId`: string, `instance`: any, `listener`: Listener, `options?`: Record‹string, any›): *Promise‹any›[]*
 
-Defined in imp.ts:35
+Defined in imp.ts:41
 
 **Parameters:**
 
@@ -83,7 +83,7 @@ ___
 
 ▸ **externalInit**(`id`: string[], `instanceId`: string, `instance`: any): *void*
 
-Defined in imp.ts:72
+Defined in imp.ts:78
 
 **Parameters:**
 
@@ -101,7 +101,7 @@ ___
 
 ▸ **externalLoad**(`id`: string[], `instanceId`: string, `instance`: any, `listener`: Listener, `options?`: Record‹string, any›): *Promise‹any›*
 
-Defined in imp.ts:80
+Defined in imp.ts:86
 
 **Parameters:**
 
@@ -121,7 +121,7 @@ ___
 
 ▸ **externalPromises**(`instanceId`: string, `instance`: any, `listener`: Listener): *Promise‹any›[]*
 
-Defined in imp.ts:145
+Defined in imp.ts:151
 
 **Parameters:**
 
@@ -158,6 +158,6 @@ ___
 
 ▸ **listenerReset**(): *void*
 
-Defined in imp.ts:29
+Defined in imp.ts:35
 
 **Returns:** *void*
