@@ -10,8 +10,7 @@ function delay(t: number, v?: any): Promise<any> {
 
 beforeEach((): void => {
   reset()
-  listener({ log })
-  listener({ imp })
+  listener({ imp, log })
 })
 
 test("instance listener function", async (): Promise<

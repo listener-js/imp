@@ -18,7 +18,7 @@
 
 ### Methods
 
-* [callbackPromises](_imp_.imp.md#private-callbackpromises)
+* [externalCallbacks](_imp_.imp.md#private-externalcallbacks)
 * [externalInit](_imp_.imp.md#private-externalinit)
 * [externalLoad](_imp_.imp.md#private-externalload)
 * [externalPromises](_imp_.imp.md#private-externalpromises)
@@ -31,18 +31,13 @@
 
 • **instances**: *Record‹string, any›*
 
-Defined in imp.ts:11
+Defined in imp.ts:6
 
 ___
 
 ###  listeners
 
-• **listeners**: *string[]* =  [
-    "externalInit",
-    "externalLoad",
-    "listenerInit",
-    "listenerReset",
-  ]
+• **listeners**: *string[]* =  ["externalInit", "externalLoad"]
 
 Defined in imp.ts:4
 
@@ -52,7 +47,7 @@ ___
 
 • **promises**: *Record‹string, Promise‹any››*
 
-Defined in imp.ts:12
+Defined in imp.ts:7
 
 ___
 
@@ -60,15 +55,15 @@ ___
 
 • **resolvers**: *Record‹string, Function›*
 
-Defined in imp.ts:13
+Defined in imp.ts:8
 
 ## Methods
 
-### `Private` callbackPromises
+### `Private` externalCallbacks
 
-▸ **callbackPromises**(`id`: string[], `instanceId`: string, `instance`: any, `listener`: Listener, `options?`: Record‹string, any›): *Promise‹any›[]*
+▸ **externalCallbacks**(`id`: string[], `instanceId`: string, `instance`: any, `listener`: Listener, `options?`: Record‹string, any›): *Promise‹any›[]*
 
-Defined in imp.ts:48
+Defined in imp.ts:35
 
 **Parameters:**
 
@@ -88,7 +83,7 @@ ___
 
 ▸ **externalInit**(`id`: string[], `instanceId`: string, `instance`: any): *void*
 
-Defined in imp.ts:40
+Defined in imp.ts:72
 
 **Parameters:**
 
@@ -106,7 +101,7 @@ ___
 
 ▸ **externalLoad**(`id`: string[], `instanceId`: string, `instance`: any, `listener`: Listener, `options?`: Record‹string, any›): *Promise‹any›*
 
-Defined in imp.ts:85
+Defined in imp.ts:80
 
 **Parameters:**
 
@@ -126,7 +121,7 @@ ___
 
 ▸ **externalPromises**(`instanceId`: string, `instance`: any, `listener`: Listener): *Promise‹any›[]*
 
-Defined in imp.ts:150
+Defined in imp.ts:145
 
 **Parameters:**
 
@@ -144,7 +139,7 @@ ___
 
 ▸ **listenerInit**(`id`: string[], `instanceId`: string, `instance`: any, `listener`: Listener): *void*
 
-Defined in imp.ts:15
+Defined in imp.ts:10
 
 **Parameters:**
 
@@ -163,6 +158,6 @@ ___
 
 ▸ **listenerReset**(): *void*
 
-Defined in imp.ts:34
+Defined in imp.ts:29
 
 **Returns:** *void*

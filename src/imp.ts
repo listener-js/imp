@@ -1,12 +1,7 @@
 import { Listener } from "@listener-js/listener"
 
 export class Imp {
-  public listeners = [
-    "externalInit",
-    "externalLoad",
-    "listenerInit",
-    "listenerReset",
-  ]
+  public listeners = ["externalInit", "externalLoad"]
 
   private instances: Record<string, any> = {}
   private promises: Record<string, Promise<any>> = {}
@@ -37,15 +32,7 @@ export class Imp {
     this.resolvers = {}
   }
 
-  private externalInit(
-    id: string[],
-    instanceId: string,
-    instance: any
-  ): void {
-    this.instances[instanceId] = instance
-  }
-
-  private callbackPromises(
+  private externalCallbacks(
     id: string[],
     instanceId: string,
     instance: any,
@@ -80,6 +67,14 @@ export class Imp {
 
       return memo
     }, [])
+  }
+
+  private externalInit(
+    id: string[],
+    instanceId: string,
+    instance: any
+  ): void {
+    this.instances[instanceId] = instance
   }
 
   private externalLoad(
@@ -132,7 +127,7 @@ export class Imp {
       }
     }
 
-    const callbackPromises = this.callbackPromises(
+    const externalCallbacks = this.externalCallbacks(
       id,
       instanceId,
       instance,
@@ -140,9 +135,9 @@ export class Imp {
       options
     )
 
-    if (promises.length || callbackPromises.length) {
+    if (promises.length || externalCallbacks.length) {
       return Promise.all(promises).then(() => {
-        return Promise.all(callbackPromises)
+        return Promise.all(externalCallbacks)
       })
     }
   }
