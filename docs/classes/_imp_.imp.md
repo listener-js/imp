@@ -68,7 +68,7 @@ Defined in imp.ts:13
 
 ▸ **callbackPromises**(`id`: string[], `instanceId`: string, `instance`: any, `listener`: Listener, `options?`: Record‹string, any›): *Promise‹any›[]*
 
-Defined in imp.ts:113
+Defined in imp.ts:151
 
 **Parameters:**
 
@@ -126,7 +126,7 @@ ___
 
 ▸ **externalPromises**(`instanceId`: string, `instance`: any, `listener`: Listener): *Promise‹any›[]*
 
-Defined in imp.ts:150
+Defined in imp.ts:113
 
 **Parameters:**
 
