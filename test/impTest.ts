@@ -14,7 +14,7 @@ beforeEach((): void => {
   listener({ imp })
 })
 
-test.only("instance listener function", async (): Promise<
+test("instance listener function", async (): Promise<
   any
 > => {
   expect.assertions(4)
@@ -28,8 +28,9 @@ test.only("instance listener function", async (): Promise<
     fn: (id: string[]): void => {
       expect(id).toEqual(["test2.fn", "test.fn", "hi"])
     },
-    joinedListener: (id, instanceId, instance): void => {
+    joinListener: (id, instanceId, instance): void => {
       expect(id).toEqual([
+        "test2.joinListener",
         "imp.loadExternal",
         "listener.listenerLoad",
         "test",
@@ -37,32 +38,31 @@ test.only("instance listener function", async (): Promise<
       expect(instanceId).toEqual("test")
       expect(instance).toEqual(test)
     },
-    listeners: ["fn", "join"],
+    listeners: ["fn", "joinListener"],
   }
 
-  return listener({ test, test2 }).then(() => {
-    test.fn(["hi"])
-  })
+  listener({ test, test2 })
+  test.fn(["hi"])
 })
 
 test("instance listener", (): void => {
   expect.assertions(3)
 
   class Test {
-    public instances = ["test2"]
+    public externals = ["test2"]
     public test2: Test2
   }
 
   const test = new Test()
 
   class Test2 {
-    public listeners = ["fn", "join"]
+    public listeners = ["fn", "joinListener"]
 
     public fn(id: string[]): void {
       expect(id).toEqual(["test2.fn", "hi"])
     }
 
-    public join(id, instanceId, instance): void {
+    public joinListener(id, instanceId, instance): void {
       expect(instanceId).toEqual("test")
       expect(instance).toEqual(test)
     }
@@ -98,8 +98,8 @@ test("async listener wait for dependency", (): Promise<
   expect.assertions(1)
 
   const test = {
+    externals: ["test2.fn"],
     fn: undefined,
-    instances: ["test2.fn"],
   }
 
   const test2 = {
@@ -122,16 +122,16 @@ test("async listener wait for dependency", (): Promise<
   return promise
 })
 
-test("async listen callback", (): Promise<any> => {
+test("async listenerLoad callback", (): Promise<any> => {
   expect.assertions(1)
 
   const test = {
-    listen: async (): Promise<any> => {
+    listenerLoad: async (): Promise<any> => {
       return delay(1).then((): void => {
         expect(1).toBe(1)
       })
     },
-    listeners: ["listen"],
+    listeners: ["listenerLoad"],
   }
 
   return listener({ test })
@@ -141,13 +141,13 @@ test("async join callback", (): void => {
   expect.assertions(2)
 
   const test = {
+    externals: ["test2.fn"],
     fn: undefined,
-    instances: ["test2.fn"],
   }
 
   const test2 = {
     fn: (): void => {},
-    joinedListener: async (
+    joinListener: async (
       id: string,
       instanceId: string,
       instance: any
@@ -157,7 +157,7 @@ test("async join callback", (): void => {
         expect(instance).toEqual(test)
       })
     },
-    listeners: ["fn", "join"],
+    listeners: ["fn", "joinListener"],
   }
 
   return listener({ test, test2 })

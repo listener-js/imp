@@ -4,6 +4,7 @@ export class Imp {
   public listeners = [
     "initExternal",
     "listenerInit",
+    "listenerReset",
     "loadExternal",
   ]
 
@@ -25,10 +26,6 @@ export class Imp {
     instance: any,
     listener: Listener
   ): void {
-    if (instance === listener) {
-      return
-    }
-
     listener.listen(
       ["listener.listenerInit", "**"],
       [`${instanceId}.initExternal`],
@@ -40,6 +37,12 @@ export class Imp {
       [`${instanceId}.loadExternal`],
       { prepend: true }
     )
+  }
+
+  public listenerReset(): void {
+    this.instances = {}
+    this.promises = {}
+    this.resolvers = {}
   }
 
   public loadExternal(
@@ -60,11 +63,9 @@ export class Imp {
         .then(
           (instance): Promise<any> => {
             this.instances[instanceId] = instance
-            return this.loadExternal(
-              id,
-              instanceId,
-              instance,
-              listener,
+
+            return listener.listener(
+              { [instanceId]: instance },
               options
             )
           }
@@ -125,11 +126,11 @@ export class Imp {
 
       if (
         this.instances[loadInstanceId] &&
-        this.instances[loadInstanceId].joinedListener
+        this.instances[loadInstanceId].joinListener
       ) {
         const out = this.instances[
           loadInstanceId
-        ].joinedListener(
+        ].joinListener(
           id,
           instanceId,
           instance,
