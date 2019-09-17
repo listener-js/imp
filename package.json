@@ -1,6 +1,6 @@
 {
   "name": "@listener-js/imp",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "JavaScript loader for decoupled and dynamic libraries 🌊",
   "keywords": [
     "loader",
