@@ -2,23 +2,15 @@ import { Listener } from "@listener-js/listener"
 
 export class Imp {
   public listeners = [
-    "initExternal",
+    "externalInit",
+    "externalLoad",
     "listenerInit",
     "listenerReset",
-    "loadExternal",
   ]
 
   private instances: Record<string, any> = {}
   private promises: Record<string, Promise<any>> = {}
   private resolvers: Record<string, Function> = {}
-
-  public initExternal(
-    id: string[],
-    instanceId: string,
-    instance: any
-  ): void {
-    this.instances[instanceId] = instance
-  }
 
   public listenerInit(
     id: string[],
@@ -28,13 +20,13 @@ export class Imp {
   ): void {
     listener.listen(
       ["listener.listenerInit", "**"],
-      [`${instanceId}.initExternal`],
+      [`${instanceId}.externalInit`],
       { prepend: true }
     )
 
     listener.listen(
       ["listener.listenerLoad", "**"],
-      [`${instanceId}.loadExternal`],
+      [`${instanceId}.externalLoad`],
       { prepend: true }
     )
   }
@@ -45,7 +37,15 @@ export class Imp {
     this.resolvers = {}
   }
 
-  public loadExternal(
+  private externalInit(
+    id: string[],
+    instanceId: string,
+    instance: any
+  ): void {
+    this.instances[instanceId] = instance
+  }
+
+  private externalLoad(
     id: string[],
     instanceId: string,
     instance: any,

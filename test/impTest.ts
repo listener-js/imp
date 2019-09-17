@@ -30,7 +30,7 @@ test("instance listener function", async (): Promise<
     },
     joinListener: (id, instanceId, instance): void => {
       expect(id).toEqual([
-        "imp.loadExternal",
+        "imp.externalLoad",
         "listener.listenerLoad",
         "test",
       ])

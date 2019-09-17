@@ -19,11 +19,11 @@
 ### Methods
 
 * [callbackPromises](_imp_.imp.md#private-callbackpromises)
+* [externalInit](_imp_.imp.md#private-externalinit)
+* [externalLoad](_imp_.imp.md#private-externalload)
 * [externalPromises](_imp_.imp.md#private-externalpromises)
-* [initExternal](_imp_.imp.md#initexternal)
 * [listenerInit](_imp_.imp.md#listenerinit)
 * [listenerReset](_imp_.imp.md#listenerreset)
-* [loadExternal](_imp_.imp.md#loadexternal)
 
 ## Properties
 
@@ -38,10 +38,10 @@ ___
 ###  listeners
 
 • **listeners**: *string[]* =  [
-    "initExternal",
+    "externalInit",
+    "externalLoad",
     "listenerInit",
     "listenerReset",
-    "loadExternal",
   ]
 
 Defined in imp.ts:4
@@ -84,6 +84,44 @@ Name | Type |
 
 ___
 
+### `Private` externalInit
+
+▸ **externalInit**(`id`: string[], `instanceId`: string, `instance`: any): *void*
+
+Defined in imp.ts:40
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`id` | string[] |
+`instanceId` | string |
+`instance` | any |
+
+**Returns:** *void*
+
+___
+
+### `Private` externalLoad
+
+▸ **externalLoad**(`id`: string[], `instanceId`: string, `instance`: any, `listener`: Listener, `options?`: Record‹string, any›): *Promise‹any›*
+
+Defined in imp.ts:48
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`id` | string[] |
+`instanceId` | string |
+`instance` | any |
+`listener` | Listener |
+`options?` | Record‹string, any› |
+
+**Returns:** *Promise‹any›*
+
+___
+
 ### `Private` externalPromises
 
 ▸ **externalPromises**(`instanceId`: string, `instance`: any, `listener`: Listener): *Promise‹any›[]*
@@ -102,29 +140,11 @@ Name | Type |
 
 ___
 
-###  initExternal
-
-▸ **initExternal**(`id`: string[], `instanceId`: string, `instance`: any): *void*
-
-Defined in imp.ts:15
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`id` | string[] |
-`instanceId` | string |
-`instance` | any |
-
-**Returns:** *void*
-
-___
-
 ###  listenerInit
 
 ▸ **listenerInit**(`id`: string[], `instanceId`: string, `instance`: any, `listener`: Listener): *void*
 
-Defined in imp.ts:23
+Defined in imp.ts:15
 
 **Parameters:**
 
@@ -143,26 +163,6 @@ ___
 
 ▸ **listenerReset**(): *void*
 
-Defined in imp.ts:42
+Defined in imp.ts:34
 
 **Returns:** *void*
-
-___
-
-###  loadExternal
-
-▸ **loadExternal**(`id`: string[], `instanceId`: string, `instance`: any, `listener`: Listener, `options?`: Record‹string, any›): *Promise‹any›*
-
-Defined in imp.ts:48
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`id` | string[] |
-`instanceId` | string |
-`instance` | any |
-`listener` | Listener |
-`options?` | Record‹string, any› |
-
-**Returns:** *Promise‹any›*
