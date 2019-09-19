@@ -19,7 +19,6 @@
 ### Methods
 
 * [externalCallbacks](_imp_.imp.md#private-externalcallbacks)
-* [externalInit](_imp_.imp.md#private-externalinit)
 * [externalLoad](_imp_.imp.md#private-externalload)
 * [externalPromises](_imp_.imp.md#private-externalpromises)
 * [listenerInit](_imp_.imp.md#listenerinit)
@@ -37,7 +36,7 @@ ___
 
 ###  listeners
 
-• **listeners**: *string[]* =  ["externalInit", "externalLoad"]
+• **listeners**: *string[]* =  ["externalLoad"]
 
 Defined in imp.ts:4
 
@@ -63,7 +62,7 @@ Defined in imp.ts:8
 
 ▸ **externalCallbacks**(`id`: string[], `instanceId`: string, `instance`: any, `listener`: Listener, `options?`: Record‹string, any›): *Promise‹any›[]*
 
-Defined in imp.ts:41
+Defined in imp.ts:39
 
 **Parameters:**
 
@@ -79,29 +78,11 @@ Name | Type |
 
 ___
 
-### `Private` externalInit
-
-▸ **externalInit**(`id`: string[], `instanceId`: string, `instance`: any): *void*
-
-Defined in imp.ts:78
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`id` | string[] |
-`instanceId` | string |
-`instance` | any |
-
-**Returns:** *void*
-
-___
-
 ### `Private` externalLoad
 
-▸ **externalLoad**(`id`: string[], `instanceId`: string, `instance`: any, `listener`: Listener, `options?`: Record‹string, any›): *Promise‹any›*
+▸ **externalLoad**(`id`: string[], `instanceId`: string, `instance`: any, `instances`: Record‹string, any›, `listener`: Listener, `options?`: Record‹string, any›): *Promise‹any›*
 
-Defined in imp.ts:86
+Defined in imp.ts:76
 
 **Parameters:**
 
@@ -110,6 +91,7 @@ Name | Type |
 `id` | string[] |
 `instanceId` | string |
 `instance` | any |
+`instances` | Record‹string, any› |
 `listener` | Listener |
 `options?` | Record‹string, any› |
 
@@ -121,7 +103,7 @@ ___
 
 ▸ **externalPromises**(`instanceId`: string, `instance`: any, `listener`: Listener): *Promise‹any›[]*
 
-Defined in imp.ts:150
+Defined in imp.ts:142
 
 **Parameters:**
 
@@ -137,7 +119,7 @@ ___
 
 ###  listenerInit
 
-▸ **listenerInit**(`id`: string[], `instanceId`: string, `instance`: any, `listener`: Listener): *void*
+▸ **listenerInit**(`id`: string[], `instanceId`: string, `instance`: any, `instances`: Record‹string, any›, `listener`: Listener): *void*
 
 Defined in imp.ts:10
 
@@ -148,6 +130,7 @@ Name | Type |
 `id` | string[] |
 `instanceId` | string |
 `instance` | any |
+`instances` | Record‹string, any› |
 `listener` | Listener |
 
 **Returns:** *void*
@@ -158,6 +141,6 @@ ___
 
 ▸ **listenerReset**(): *void*
 
-Defined in imp.ts:35
+Defined in imp.ts:33
 
 **Returns:** *void*

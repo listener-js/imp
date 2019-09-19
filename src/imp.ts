@@ -1,28 +1,26 @@
 import { Listener } from "@listener-js/listener"
 
 export class Imp {
-  public listeners = ["externalInit", "externalLoad"]
+  public listeners = ["externalLoad"]
 
   private instances: Record<string, any> = {}
   private promises: Record<string, Promise<any>> = {}
   private resolvers: Record<string, Function> = {}
 
-  public listenerInit(
+  listenerInit(
     id: string[],
     instanceId: string,
     instance: any,
+    instances: Record<string, any>,
     listener: Listener
   ): void {
     listener.callbacks = listener.callbacks.concat(
       "listenerJoin"
     )
 
-    listener.listen(
-      id,
-      ["listener.listenerInit", "**"],
-      `${instanceId}.externalInit`,
-      { prepend: true }
-    )
+    for (const instanceId in instances) {
+      this.instances[instanceId] = instances[instanceId]
+    }
 
     listener.listen(
       id,
@@ -75,18 +73,11 @@ export class Imp {
     }, [])
   }
 
-  private externalInit(
-    id: string[],
-    instanceId: string,
-    instance: any
-  ): void {
-    this.instances[instanceId] = instance
-  }
-
   private externalLoad(
     id: string[],
     instanceId: string,
     instance: any,
+    instances: Record<string, any>,
     listener: Listener,
     options?: Record<string, any>
   ): Promise<any> {
@@ -103,6 +94,7 @@ export class Imp {
             this.instances[instanceId] = instance
 
             return listener.listener(
+              id,
               { [instanceId]: instance },
               options
             )

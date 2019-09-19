@@ -9,8 +9,8 @@ function delay(t: number, v?: any): Promise<any> {
 }
 
 beforeEach((): void => {
-  reset()
-  listener({ imp, log })
+  reset(["beforeEach"])
+  listener(["beforeEach"], { log })
 })
 
 test("instance listener function", async (): Promise<
@@ -34,6 +34,7 @@ test("instance listener function", async (): Promise<
         "imp.externalLoad",
         "listener.listenerLoad",
         "test",
+        "listener.listener",
       ])
       expect(instanceId).toEqual("test")
       expect(instance).toEqual(test)
@@ -41,7 +42,8 @@ test("instance listener function", async (): Promise<
     listeners: ["fn"],
   }
 
-  listener({ test, test2 })
+  // eslint-disable-next-line sort-keys
+  listener([], { test, test2, imp })
 
   test.fn(["hi"])
 })
@@ -71,7 +73,8 @@ test("instance listener", (): void => {
 
   const test2 = new Test2()
 
-  listener({ test, test2 })
+  // eslint-disable-next-line sort-keys
+  listener([], { test, test2, imp })
 
   test.test2.fn(["hi"])
 })
@@ -88,9 +91,12 @@ test("async listener instance", (): Promise<any> => {
 
   const promise = delay(1, test)
 
-  return listener({ test: promise }).then((): void => {
-    test.fn(["hi"])
-  })
+  // eslint-disable-next-line sort-keys
+  return listener([], { test: promise, imp }).then(
+    (): void => {
+      test.fn(["hi"])
+    }
+  )
 })
 
 test("async listener wait for dependency", (): Promise<
@@ -112,38 +118,20 @@ test("async listener wait for dependency", (): Promise<
 
   const asyncTest = delay(1, test)
 
-  const promise = listener({ test: asyncTest }).then(
-    (): void => {
-      test.fn(["hi"])
-    }
-  )
+  const promise = listener([], {
+    test: asyncTest,
+    // eslint-disable-next-line sort-keys
+    imp,
+  }).then((): void => {
+    test.fn(["hi"])
+  })
 
-  listener({ test2 })
+  listener([], { test2 })
 
   return promise
 })
 
-test("async listenerLoad callback", async (): Promise<
-  any
-> => {
-  expect.assertions(1)
-
-  const test = {
-    listenerLoad: async (id: string[]): Promise<any> => {
-      return delay(1).then((): void => {
-        expect(id).toEqual([
-          "test.listenerLoad",
-          "listener.listenerLoad",
-          "test",
-        ])
-      })
-    },
-  }
-
-  return listener({ test })
-})
-
-test("async join callback", (): void => {
+test("async join callback", async (): Promise<any> => {
   expect.assertions(2)
 
   const test = {
@@ -166,5 +154,6 @@ test("async join callback", (): void => {
     listeners: ["fn"],
   }
 
-  return listener({ test, test2 })
+  // eslint-disable-next-line sort-keys
+  return listener([], { test, test2, imp })
 })
