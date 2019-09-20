@@ -33,7 +33,6 @@ test("instance listener function", async (): Promise<
         "test2.listenerJoin",
         "imp.externalLoad",
         "listener.listenerLoad",
-        "test",
         "listener.listener",
       ])
       expect(instanceId).toEqual("test")
