@@ -1,83 +1,55 @@
-import { Listener } from "@listener-js/listener"
+import {
+  Listener,
+  ListenerBind,
+} from "@listener-js/listener"
 
 export class Imp {
-  public listeners = ["externalLoad"]
-
   private instances: Record<string, any> = {}
   private promises: Record<string, Promise<any>> = {}
   private resolvers: Record<string, Function> = {}
 
-  listenerInit(
-    id: string[],
-    instanceId: string,
-    instance: any,
-    instances: Record<string, any>,
-    listener: Listener
-  ): void {
-    listener.callbacks = listener.callbacks.concat(
-      "listenerJoin"
-    )
-
-    for (const instanceId in instances) {
-      this.instances[instanceId] = instances[instanceId]
-    }
-
-    listener.listen(
-      id,
-      ["listener.listenerLoad", "**"],
-      `${instanceId}.externalLoad`,
-      { prepend: true }
-    )
+  listenerBind(
+    lid: string[],
+    instanceId: string
+  ): ListenerBind {
+    return [
+      [
+        ["listener.instancesLoaded", "**"],
+        `${instanceId}.anyInstancesLoaded`,
+        { prepend: true },
+      ],
+      [
+        ["listener.instanceLoaded", "**"],
+        `${instanceId}.anyInstanceLoaded`,
+        { prepend: true },
+      ],
+      [
+        ["listener.reset", "**"],
+        `${instanceId}.listenerReset`,
+        { prepend: true },
+      ],
+    ]
   }
 
-  public listenerReset(): void {
+  public listenerReset(lid: string[]): void {
     this.instances = {}
     this.promises = {}
     this.resolvers = {}
   }
 
-  private externalCallbacks(
-    id: string[],
-    instanceId: string,
-    instance: any,
-    listener: Listener,
-    options?: Record<string, any>
-  ): Promise<any>[] {
-    if (!instance.externals) {
-      return []
+  private anyInstancesLoaded(
+    lid: string[],
+    instances: Record<string, any>
+  ): void {
+    for (const instanceId in instances) {
+      this.instances[instanceId] = instances[instanceId]
     }
-
-    return instance.externals.reduce((memo, loadId) => {
-      const [loadInstanceId] = listener.parseId(loadId)
-
-      if (
-        this.instances[loadInstanceId] &&
-        this.instances[loadInstanceId].listenerJoin
-      ) {
-        const out = this.instances[
-          loadInstanceId
-        ].listenerJoin(
-          id,
-          instanceId,
-          instance,
-          listener,
-          options
-        )
-
-        if (out && out.then) {
-          return memo.concat(out)
-        }
-      }
-
-      return memo
-    }, [])
   }
 
-  private externalLoad(
-    id: string[],
+  private anyInstanceLoaded(
+    lid: string[],
     instanceId: string,
     instance: any,
-    instances: Record<string, any>,
     listener: Listener,
     options?: Record<string, any>
   ): Promise<any> {
@@ -89,17 +61,17 @@ export class Imp {
 
     if (instance.then) {
       instance
-        .then(
-          (instance): Promise<any> => {
-            this.instances[instanceId] = instance
+        .then((instance):
+          | Record<string, any>
+          | Promise<Record<string, any>> => {
+          this.instances[instanceId] = instance
 
-            return listener.listener(
-              id,
-              { [instanceId]: instance },
-              options
-            )
-          }
-        )
+          return listener.load(
+            lid,
+            { [instanceId]: instance },
+            options
+          )
+        })
         .then(() => this.resolvers[instanceId]())
     } else if (instance.externals) {
       for (const joinId of instance.externals) {
@@ -118,14 +90,13 @@ export class Imp {
             )
           }
         } else {
-          instance[loadInstanceId] =
-            listener.instances[loadInstanceId]
+          instance[joinId] = listener.instances[joinId]
         }
       }
     }
 
     const externalCallbacks = this.externalCallbacks(
-      id,
+      lid,
       instanceId,
       instance,
       listener,
@@ -137,6 +108,42 @@ export class Imp {
         return Promise.all(externalCallbacks)
       })
     }
+  }
+
+  private externalCallbacks(
+    lid: string[],
+    instanceId: string,
+    instance: any,
+    listener: Listener,
+    options?: Record<string, any>
+  ): Promise<any>[] {
+    if (!instance.externals) {
+      return []
+    }
+
+    return instance.externals.reduce((memo, loadId) => {
+      const [loadInstanceId] = listener.parseId(loadId)
+      const id = loadInstanceId || loadId
+
+      if (
+        this.instances[id] &&
+        this.instances[id].listenerJoin
+      ) {
+        const out = this.instances[id].listenerJoin(
+          lid,
+          instanceId,
+          instance,
+          listener,
+          options
+        )
+
+        if (out && out.then) {
+          return memo.concat(out)
+        }
+      }
+
+      return memo
+    }, [])
   }
 
   private externalPromises(
@@ -163,11 +170,12 @@ export class Imp {
         const [loadInstanceId] = listener.parseId(
           instanceId
         )
+        const id = loadInstanceId || instanceId
 
         promises = promises.concat(
           this.externalPromises(
-            loadInstanceId,
-            this.instances[loadInstanceId],
+            id,
+            this.instances[id],
             listener
           )
         )

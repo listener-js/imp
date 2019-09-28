@@ -11,16 +11,16 @@
 ### Properties
 
 * [instances](_imp_.imp.md#private-instances)
-* [listeners](_imp_.imp.md#listeners)
 * [promises](_imp_.imp.md#private-promises)
 * [resolvers](_imp_.imp.md#private-resolvers)
 
 ### Methods
 
+* [anyInstanceLoaded](_imp_.imp.md#private-anyinstanceloaded)
+* [anyInstancesLoaded](_imp_.imp.md#private-anyinstancesloaded)
 * [externalCallbacks](_imp_.imp.md#private-externalcallbacks)
-* [externalLoad](_imp_.imp.md#private-externalload)
 * [externalPromises](_imp_.imp.md#private-externalpromises)
-* [listenerInit](_imp_.imp.md#listenerinit)
+* [listenerBind](_imp_.imp.md#listenerbind)
 * [listenerReset](_imp_.imp.md#listenerreset)
 
 ## Properties
@@ -29,15 +29,7 @@
 
 • **instances**: *Record‹string, any›*
 
-Defined in imp.ts:6
-
-___
-
-###  listeners
-
-• **listeners**: *string[]* =  ["externalLoad"]
-
-Defined in imp.ts:4
+Defined in imp.ts:7
 
 ___
 
@@ -45,7 +37,7 @@ ___
 
 • **promises**: *Record‹string, Promise‹any››*
 
-Defined in imp.ts:7
+Defined in imp.ts:8
 
 ___
 
@@ -53,44 +45,23 @@ ___
 
 • **resolvers**: *Record‹string, Function›*
 
-Defined in imp.ts:8
+Defined in imp.ts:9
 
 ## Methods
 
-### `Private` externalCallbacks
+### `Private` anyInstanceLoaded
 
-▸ **externalCallbacks**(`id`: string[], `instanceId`: string, `instance`: any, `listener`: Listener, `options?`: Record‹string, any›): *Promise‹any›[]*
+▸ **anyInstanceLoaded**(`lid`: string[], `instanceId`: string, `instance`: any, `listener`: Listener, `options?`: Record‹string, any›): *Promise‹any›*
 
-Defined in imp.ts:39
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`id` | string[] |
-`instanceId` | string |
-`instance` | any |
-`listener` | Listener |
-`options?` | Record‹string, any› |
-
-**Returns:** *Promise‹any›[]*
-
-___
-
-### `Private` externalLoad
-
-▸ **externalLoad**(`id`: string[], `instanceId`: string, `instance`: any, `instances`: Record‹string, any›, `listener`: Listener, `options?`: Record‹string, any›): *Promise‹any›*
-
-Defined in imp.ts:76
+Defined in imp.ts:49
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`id` | string[] |
+`lid` | string[] |
 `instanceId` | string |
 `instance` | any |
-`instances` | Record‹string, any› |
 `listener` | Listener |
 `options?` | Record‹string, any› |
 
@@ -98,11 +69,48 @@ Name | Type |
 
 ___
 
+### `Private` anyInstancesLoaded
+
+▸ **anyInstancesLoaded**(`lid`: string[], `instances`: Record‹string, any›): *void*
+
+Defined in imp.ts:40
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`lid` | string[] |
+`instances` | Record‹string, any› |
+
+**Returns:** *void*
+
+___
+
+### `Private` externalCallbacks
+
+▸ **externalCallbacks**(`lid`: string[], `instanceId`: string, `instance`: any, `listener`: Listener, `options?`: Record‹string, any›): *Promise‹any›[]*
+
+Defined in imp.ts:113
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`lid` | string[] |
+`instanceId` | string |
+`instance` | any |
+`listener` | Listener |
+`options?` | Record‹string, any› |
+
+**Returns:** *Promise‹any›[]*
+
+___
+
 ### `Private` externalPromises
 
 ▸ **externalPromises**(`instanceId`: string, `instance`: any, `listener`: Listener): *Promise‹any›[]*
 
-Defined in imp.ts:142
+Defined in imp.ts:149
 
 **Parameters:**
 
@@ -116,30 +124,33 @@ Name | Type |
 
 ___
 
-###  listenerInit
+###  listenerBind
 
-▸ **listenerInit**(`id`: string[], `instanceId`: string, `instance`: any, `instances`: Record‹string, any›, `listener`: Listener): *void*
+▸ **listenerBind**(`lid`: string[], `instanceId`: string): *ListenerBind*
 
-Defined in imp.ts:10
+Defined in imp.ts:11
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`id` | string[] |
+`lid` | string[] |
 `instanceId` | string |
-`instance` | any |
-`instances` | Record‹string, any› |
-`listener` | Listener |
 
-**Returns:** *void*
+**Returns:** *ListenerBind*
 
 ___
 
 ###  listenerReset
 
-▸ **listenerReset**(): *void*
+▸ **listenerReset**(`lid`: string[]): *void*
 
-Defined in imp.ts:33
+Defined in imp.ts:34
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`lid` | string[] |
 
 **Returns:** *void*

@@ -1,6 +1,7 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
+    "allowUnusedLabels": true,
     "alwaysStrict": true,
     "declaration": true,
     "module": "commonjs",
