@@ -18,10 +18,10 @@
 
 * [anyInstanceLoaded](_imp_.imp.md#private-anyinstanceloaded)
 * [anyInstancesLoaded](_imp_.imp.md#private-anyinstancesloaded)
-* [externalCallbacks](_imp_.imp.md#private-externalcallbacks)
 * [externalPromises](_imp_.imp.md#private-externalpromises)
-* [listenerBind](_imp_.imp.md#listenerbind)
-* [listenerReset](_imp_.imp.md#listenerreset)
+* [instanceJoined](_imp_.imp.md#private-instancejoined)
+* [listenerBind](_imp_.imp.md#private-listenerbind)
+* [listenerReset](_imp_.imp.md#private-listenerreset)
 
 ## Properties
 
@@ -53,7 +53,7 @@ Defined in imp.ts:9
 
 ▸ **anyInstanceLoaded**(`lid`: string[], `instanceId`: string, `instance`: any, `listener`: Listener, `options?`: Record‹string, any›): *Promise‹any›*
 
-Defined in imp.ts:49
+Defined in imp.ts:20
 
 **Parameters:**
 
@@ -73,7 +73,7 @@ ___
 
 ▸ **anyInstancesLoaded**(`lid`: string[], `instances`: Record‹string, any›): *void*
 
-Defined in imp.ts:40
+Defined in imp.ts:11
 
 **Parameters:**
 
@@ -86,11 +86,29 @@ Name | Type |
 
 ___
 
-### `Private` externalCallbacks
+### `Private` externalPromises
 
-▸ **externalCallbacks**(`lid`: string[], `instanceId`: string, `instance`: any, `listener`: Listener, `options?`: Record‹string, any›): *Promise‹any›[]*
+▸ **externalPromises**(`instanceId`: string, `instance`: any, `listener`: Listener): *Promise‹any›[]*
 
-Defined in imp.ts:113
+Defined in imp.ts:88
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`instanceId` | string |
+`instance` | any |
+`listener` | Listener |
+
+**Returns:** *Promise‹any›[]*
+
+___
+
+### `Private` instanceJoined
+
+▸ **instanceJoined**(`lid`: string[], `instanceId`: string, `instance`: any, `listener`: Listener, `options?`: Record‹string, any›): *void | Promise‹any›*
+
+Defined in imp.ts:150
 
 **Parameters:**
 
@@ -102,33 +120,15 @@ Name | Type |
 `listener` | Listener |
 `options?` | Record‹string, any› |
 
-**Returns:** *Promise‹any›[]*
+**Returns:** *void | Promise‹any›*
 
 ___
 
-### `Private` externalPromises
-
-▸ **externalPromises**(`instanceId`: string, `instance`: any, `listener`: Listener): *Promise‹any›[]*
-
-Defined in imp.ts:149
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`instanceId` | string |
-`instance` | any |
-`listener` | Listener |
-
-**Returns:** *Promise‹any›[]*
-
-___
-
-###  listenerBind
+### `Private` listenerBind
 
 ▸ **listenerBind**(`lid`: string[], `instanceId`: string): *ListenerBind*
 
-Defined in imp.ts:11
+Defined in imp.ts:127
 
 **Parameters:**
 
@@ -141,11 +141,11 @@ Name | Type |
 
 ___
 
-###  listenerReset
+### `Private` listenerReset
 
 ▸ **listenerReset**(`lid`: string[]): *void*
 
-Defined in imp.ts:34
+Defined in imp.ts:160
 
 **Parameters:**
 

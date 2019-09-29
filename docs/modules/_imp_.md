@@ -18,4 +18,4 @@
 
 • **imp**: *[Imp](../classes/_imp_.imp.md)* =  new Imp()
 
-Defined in imp.ts:189
+Defined in imp.ts:167

@@ -1,5 +1,9 @@
 import { imp } from "../"
-import { load, reset } from "@listener-js/listener"
+import {
+  load,
+  reset,
+  ListenerBind,
+} from "@listener-js/listener"
 import { log } from "@listener-js/log"
 
 function delay(t: number, v?: any): Promise<any> {
@@ -27,10 +31,11 @@ test("instance listener function", async (): Promise<
     fn: (lid: string[]): void => {
       expect(lid).toEqual(["test2.fn", "test.fn", "hi"])
     },
-    listenerJoin: (lid, instanceId, instance): void => {
+    instanceJoined: (lid, instanceId, instance): void => {
       expect(lid).toEqual([
-        "test2.listenerJoin",
-        "imp.externalCallbacks",
+        "test2.instanceJoined",
+        "imp.instanceJoined",
+        "test2",
         "imp.anyInstanceLoaded",
         "listener.instanceLoaded",
         "test",
@@ -39,6 +44,17 @@ test("instance listener function", async (): Promise<
       ])
       expect(instanceId).toEqual("test")
       expect(instance).toEqual(test)
+    },
+    listenerBind: (
+      lid: string[],
+      instanceId: string
+    ): ListenerBind => {
+      return [
+        [
+          ["imp.instanceJoined", instanceId, "**"],
+          `${instanceId}.instanceJoined`,
+        ],
+      ]
     },
   }
 
@@ -63,9 +79,25 @@ test("instance listener", (): void => {
       expect(lid).toEqual(["test2.fn", "hi"])
     }
 
-    public listenerJoin(lid, instanceId, instance): void {
+    private instanceJoined(
+      lid,
+      instanceId,
+      instance
+    ): void {
       expect(instanceId).toEqual("test")
       expect(instance).toEqual(test)
+    }
+
+    private listenerBind(
+      lid: string[],
+      instanceId: string
+    ): ListenerBind {
+      return [
+        [
+          ["imp.instanceJoined", instanceId, "**"],
+          `${instanceId}.instanceJoined`,
+        ],
+      ]
     }
   }
 
@@ -135,7 +167,7 @@ test("async join callback", async (): Promise<any> => {
 
   const test2 = {
     fn: (): void => {},
-    listenerJoin: async (
+    instanceJoined: async (
       lid: string,
       instanceId: string,
       instance: any
@@ -144,6 +176,17 @@ test("async join callback", async (): Promise<any> => {
         expect(instanceId).toEqual("test")
         expect(instance).toEqual(test)
       })
+    },
+    listenerBind: (
+      lid: string[],
+      instanceId: string
+    ): ListenerBind => {
+      return [
+        [
+          ["imp.instanceJoined", instanceId, "**"],
+          `${instanceId}.instanceJoined`,
+        ],
+      ]
     },
   }
 
