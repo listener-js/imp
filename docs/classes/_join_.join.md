@@ -21,7 +21,7 @@
 * [instanceJoined](_join_.join.md#private-instancejoined)
 * [instancesJoined](_join_.join.md#private-instancesjoined)
 * [listenerBind](_join_.join.md#private-listenerbind)
-* [parseId](_join_.join.md#parseid)
+* [parseId](_join_.join.md#private-parseid)
 * [promise](_join_.join.md#private-promise)
 * [readJoins](_join_.join.md#private-readjoins)
 * [waitForPromises](_join_.join.md#private-waitforpromises)
@@ -149,7 +149,7 @@ Name | Type |
 
 ___
 
-###  parseId
+### `Private` parseId
 
 ▸ **parseId**(`id`: string, `listener`: Listener): *[string, string]*
 

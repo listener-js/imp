@@ -109,7 +109,7 @@ export class Join {
     return
   }
 
-  parseId(
+  private parseId(
     id: string,
     listener: Listener
   ): [string, string] {
