@@ -136,7 +136,7 @@ ___
 
 ▸ **listenerBind**(`lid`: string[], `instanceId`: string): *ListenerBind*
 
-Defined in join.ts:120
+Defined in join.ts:112
 
 **Parameters:**
 
@@ -153,7 +153,7 @@ ___
 
 ▸ **parseId**(`id`: string, `listener`: Listener): *[string, string]*
 
-Defined in join.ts:112
+Defined in join.ts:145
 
 **Parameters:**
 

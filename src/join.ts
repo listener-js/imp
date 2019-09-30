@@ -109,14 +109,6 @@ export class Join {
     return
   }
 
-  private parseId(
-    id: string,
-    listener: Listener
-  ): [string, string] {
-    const [instanceId, fnId] = listener.parseId(id)
-    return [instanceId || id, fnId]
-  }
-
   private listenerBind(
     lid: string[],
     instanceId: string
@@ -148,6 +140,14 @@ export class Join {
         { append: 0.1 },
       ],
     ]
+  }
+
+  private parseId(
+    id: string,
+    listener: Listener
+  ): [string, string] {
+    const [instanceId, fnId] = listener.parseId(id)
+    return [instanceId || id, fnId]
   }
 
   private promise(instanceId: string): Promise<any> {
