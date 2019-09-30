@@ -54,7 +54,7 @@ export class Join {
         .then((instance):
           | Record<string, any>
           | Promise<Record<string, any>> => {
-          delete this.promises[instanceId]
+          this.promises[instanceId] = undefined
 
           return listener.load(
             lid,
