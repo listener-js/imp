@@ -1,9 +1,11 @@
-import { imp } from "../"
+import join from "../"
+
 import {
   load,
   reset,
   ListenerBind,
 } from "@listener-js/listener"
+
 import { log } from "@listener-js/log"
 
 function delay(t: number, v?: any): Promise<any> {
@@ -20,30 +22,39 @@ beforeEach((): void => {
 test("instance listener function", async (): Promise<
   any
 > => {
-  expect.assertions(4)
+  expect.assertions(6)
 
   const test = {
-    externals: ["test2.fn"],
     fn: (id: string[]): void => {},
+    listenerJoin: (lid): string[][] => [["test2.fn"]],
   }
 
   const test2 = {
     fn: (lid: string[]): void => {
       expect(lid).toEqual(["test2.fn", "test.fn", "hi"])
     },
-    instanceJoined: (lid, instanceId, instance): void => {
+    instanceJoined: (
+      lid,
+      instanceId,
+      instance,
+      joinId,
+      joinInstance
+    ): void => {
       expect(lid).toEqual([
         "test2.instanceJoined",
-        "imp.instanceJoined",
+        "join.instanceJoined",
         "test2",
-        "imp.anyInstanceLoaded",
+        "join.instancesJoined",
+        "join.anyInstanceLoaded",
         "listener.instanceLoaded",
         "test",
         "listener.instancesLoaded",
         "listener.load",
       ])
-      expect(instanceId).toEqual("test")
-      expect(instance).toEqual(test)
+      expect(instanceId).toBe("test2")
+      expect(instance).toBe(test2)
+      expect(joinId).toBe("test")
+      expect(joinInstance).toBe(test)
     },
     listenerBind: (
       lid: string[],
@@ -51,7 +62,7 @@ test("instance listener function", async (): Promise<
     ): ListenerBind => {
       return [
         [
-          ["imp.instanceJoined", instanceId, "**"],
+          ["join.instanceJoined", instanceId, "**"],
           `${instanceId}.instanceJoined`,
         ],
       ]
@@ -59,7 +70,7 @@ test("instance listener function", async (): Promise<
   }
 
   // eslint-disable-next-line sort-keys
-  load([], { test, test2, imp })
+  load([], { test, test2, join })
 
   test.fn(["hi"])
 })
@@ -68,7 +79,9 @@ test("instance listener", (): void => {
   expect.assertions(3)
 
   class Test {
-    public externals = ["test2"]
+    private listenerJoin(lid): string[][] {
+      return [["test2"]]
+    }
     public test2: Test2
   }
 
@@ -82,10 +95,11 @@ test("instance listener", (): void => {
     private instanceJoined(
       lid,
       instanceId,
-      instance
+      instance,
+      joinId
     ): void {
-      expect(instanceId).toEqual("test")
-      expect(instance).toEqual(test)
+      expect(instanceId).toBe("test2")
+      expect(joinId).toBe("test")
     }
 
     private listenerBind(
@@ -94,7 +108,7 @@ test("instance listener", (): void => {
     ): ListenerBind {
       return [
         [
-          ["imp.instanceJoined", instanceId, "**"],
+          ["join.instanceJoined", instanceId, "**"],
           `${instanceId}.instanceJoined`,
         ],
       ]
@@ -104,12 +118,14 @@ test("instance listener", (): void => {
   const test2 = new Test2()
 
   // eslint-disable-next-line sort-keys
-  load([], { test, test2, imp })
+  load([], { test, test2, join })
 
   test.test2.fn(["hi"])
 })
 
-test("async listener instance", (): Promise<any> => {
+test("async listener instance", async (): Promise<
+  Record<string, any>
+> => {
   expect.assertions(1)
 
   const test = {
@@ -121,9 +137,11 @@ test("async listener instance", (): Promise<any> => {
   const promise = delay(1, test)
 
   // eslint-disable-next-line sort-keys
-  return load([], { test: promise, imp }).then((): void => {
-    test.fn(["hi"])
-  })
+  return load([], { test: promise, join }).then(
+    (): void => {
+      test.fn(["hi"])
+    }
+  )
 })
 
 test("async listener wait for dependency", (): Promise<
@@ -132,8 +150,8 @@ test("async listener wait for dependency", (): Promise<
   expect.assertions(1)
 
   const test = {
-    externals: ["test2.fn"],
     fn: undefined,
+    listenerJoin: (lid): string[][] => [["test2.fn"]],
   }
 
   const test2 = {
@@ -147,7 +165,7 @@ test("async listener wait for dependency", (): Promise<
   const promise = load([], {
     test: asyncTest,
     // eslint-disable-next-line sort-keys
-    imp,
+    join,
   }).then((): void => {
     test.fn(["hi"])
   })
@@ -158,11 +176,11 @@ test("async listener wait for dependency", (): Promise<
 })
 
 test("async join callback", async (): Promise<any> => {
-  expect.assertions(2)
+  expect.assertions(4)
 
   const test = {
-    externals: ["test2.fn"],
     fn: undefined,
+    listenerJoin: (lid): string[][] => [["test2.fn"]],
   }
 
   const test2 = {
@@ -170,11 +188,15 @@ test("async join callback", async (): Promise<any> => {
     instanceJoined: async (
       lid: string,
       instanceId: string,
-      instance: any
+      instance: any,
+      joinId: string,
+      joinInstance: any
     ): Promise<any> => {
       return delay(1).then((): void => {
-        expect(instanceId).toEqual("test")
-        expect(instance).toEqual(test)
+        expect(instanceId).toBe("test2")
+        expect(instance).toEqual(test2)
+        expect(joinId).toBe("test")
+        expect(joinInstance).toEqual(test)
       })
     },
     listenerBind: (
@@ -183,7 +205,7 @@ test("async join callback", async (): Promise<any> => {
     ): ListenerBind => {
       return [
         [
-          ["imp.instanceJoined", instanceId, "**"],
+          ["join.instanceJoined", instanceId, "**"],
           `${instanceId}.instanceJoined`,
         ],
       ]
@@ -191,5 +213,5 @@ test("async join callback", async (): Promise<any> => {
   }
 
   // eslint-disable-next-line sort-keys
-  return load([], { test, test2, imp })
+  return load([], { test, test2, join })
 })

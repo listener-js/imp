@@ -1,6 +1,6 @@
-[@listener-js/imp](README.md) › [Globals](globals.md)
+[@listener-js/join](README.md) › [Globals](globals.md)
 
-# @listener-js/imp
+# @listener-js/join
 
 # imp
 

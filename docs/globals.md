@@ -1,9 +1,9 @@
-[@listener-js/imp](README.md) › [Globals](globals.md)
+[@listener-js/join](README.md) › [Globals](globals.md)
 
-# @listener-js/imp
+# @listener-js/join
 
 ## Index
 
 ### External modules
 
-* ["imp"](modules/_imp_.md)
+* ["join"](modules/_join_.md)

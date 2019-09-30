@@ -1,20 +1,19 @@
 {
-  "name": "@listener-js/imp",
+  "name": "@listener-js/join",
   "version": "0.3.0",
-  "description": "JavaScript loader for decoupled and dynamic libraries 🌊",
+  "description": "Join listener libraries together 🤝",
   "keywords": [
-    "loader",
-    "decoupled",
-    "dynamic"
+    "join",
+    "listener"
   ],
-  "author": "Imp <imp@imp.tools>",
-  "main": "dist/imp.js",
+  "author": "Join <join@join.tools>",
+  "main": "dist/join.js",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/imp-js/imp.git"
+    "url": "git+ssh://git@github.com/listener-js/join.git"
   },
   "license": "MIT",
-  "homepage": "https://github.com/imp-js/imp#readme",
+  "homepage": "https://github.com/listener-js/join#readme",
   "scripts": {
     "fix": "npm run lint -- --fix",
     "lint": "eslint --ignore-path .gitignore --ext=js .",
@@ -25,13 +24,13 @@
     "docs": "typedoc --out docs --media media --theme markdown src/*.ts"
   },
   "devDependencies": {
-    "@listener-js/listener": "2.7.1",
-    "@listener-js/log": "1.23.0",
+    "@listener-js/listener": "2.8.3",
+    "@listener-js/log": "1.24.0",
     "@types/jest": "24.0.18",
     "@types/node": "12.7.8",
     "@typescript-eslint/eslint-plugin": "2.3.1",
     "@typescript-eslint/parser": "2.3.1",
-    "eslint": "6.4.0",
+    "eslint": "6.5.0",
     "eslint-config-prettier": "6.3.0",
     "eslint-plugin-prettier": "3.1.1",
     "husky": "3.0.7",
