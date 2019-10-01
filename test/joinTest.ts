@@ -47,10 +47,7 @@ test("instance listener function", async (): Promise<
         "join.listenerJoined",
         "test2",
         "join.listenersJoined",
-        "join.anyListenerLoaded",
-        "listener.listenerLoaded",
-        "test",
-        "listener.listenersLoaded",
+        "listener.load",
         "listener.load",
       ])
       expect(instanceId).toBe("test2")
