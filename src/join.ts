@@ -8,7 +8,39 @@ export class Join {
   private promises: Record<string, Promise<any>> = {}
   private resolvers: Record<string, Function> = {}
 
-  private anyInstanceLoaded(
+  private applyCallbacksBindings(
+    lid: string[],
+    listener: Listener,
+    instances: Record<string, any>,
+    options?: Record<string, any>
+  ): void | Promise<any> {
+    for (const instanceId in instances) {
+      const instance = instances[instanceId]
+
+      if (instance === this) {
+        continue
+      }
+
+      if (instance.listenerJoin) {
+        listener.bind(
+          lid,
+          ["join.listenerJoin", instanceId, "**"],
+          `${instanceId}.listenerJoin`,
+          { append: true, return: true }
+        )
+      }
+
+      if (instance.listenerJoined) {
+        listener.bind(
+          lid,
+          ["join.listenerJoined", instanceId, "**"],
+          `${instanceId}.listenerJoined`
+        )
+      }
+    }
+  }
+
+  private anyListenerLoaded(
     lid: string[],
     instanceId: string,
     instance: any,
@@ -68,7 +100,19 @@ export class Join {
     }
   }
 
-  private instancesJoined(
+  private listenerJoin(
+    lid: string[],
+    instanceId: string,
+    instance: any,
+    joinInstanceId: string,
+    joinInstance: any,
+    listener: Listener,
+    options?: Record<string, any>
+  ): void | Promise<any> {
+    return
+  }
+
+  private listenersJoined(
     lid: string[],
     instanceId: string,
     instance: any,
@@ -86,9 +130,9 @@ export class Join {
 
       const { promises: p } = listener.captureOutputs(
         lid,
-        [instanceId, instance, this, options],
+        [instanceId, instance, listener, options],
         { [id]: listener.instances[id] },
-        this.instanceJoined
+        this.listenerJoined
       )
 
       promises = promises.concat(p)
@@ -99,44 +143,47 @@ export class Join {
     }
   }
 
-  private instanceJoined(
+  private listenerJoined(
     lid: string[],
     instanceId: string,
     instance: any,
+    joinInstanceId: string,
+    joinInstance: any,
     listener: Listener,
     options?: Record<string, any>
   ): void | Promise<any> {
     return
   }
 
-  private listenerBind(
+  private listenerBindings(
     lid: string[],
-    instanceId: string
+    instanceId: string,
+    instance: any
   ): ListenerBind {
     return [
       [
-        ["listener.instanceLoaded", "**"],
-        `${instanceId}.anyInstanceLoaded`,
-        { prepend: true },
+        ["listener.listenersLoaded", "**"],
+        `${instanceId}.applyCallbacksBindings`,
+        { listener: true, prepend: true },
       ],
       [
-        [`${instanceId}.anyInstanceLoaded`, "**"],
+        [`${instanceId}.anyListenerLoaded`, "**"],
         `${instanceId}.buildPromise`,
         { prepend: 0.3 },
       ],
       [
-        [`${instanceId}.anyInstanceLoaded`, "**"],
+        [`${instanceId}.anyListenerLoaded`, "**"],
         `${instanceId}.readJoins`,
         { prepend: 0.2 },
       ],
       [
-        [`${instanceId}.anyInstanceLoaded`, "**"],
+        [`${instanceId}.anyListenerLoaded`, "**"],
         `${instanceId}.waitForPromises`,
         { prepend: 0.1 },
       ],
       [
-        [`${instanceId}.anyInstanceLoaded`, "**"],
-        `${instanceId}.instancesJoined`,
+        [`${instanceId}.anyListenerLoaded`, "**"],
+        `${instanceId}.listenersJoined`,
         { append: 0.1 },
       ],
     ]
@@ -172,9 +219,9 @@ export class Join {
       valuesById,
     } = listener.captureOutputs(
       lid,
-      [this, options],
+      [listener, options],
       { [instanceId]: instance },
-      "listenerJoin"
+      this.listenerJoin
     )
 
     this.joins = {

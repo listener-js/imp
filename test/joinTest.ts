@@ -1,9 +1,9 @@
 import join from "../"
 
 import {
+  instance,
   load,
   reset,
-  ListenerBind,
 } from "@listener-js/listener"
 
 import log from "@listener-js/log"
@@ -26,14 +26,16 @@ test("instance listener function", async (): Promise<
 
   const test = {
     fn: (id: string[]): void => {},
-    listenerJoin: (lid): string[][] => [["test2.fn"]],
+    listenerJoin: (lid): string[][] => {
+      return [["test2.fn"]]
+    },
   }
 
   const test2 = {
     fn: (lid: string[]): void => {
       expect(lid).toEqual(["test2.fn", "test.fn", "hi"])
     },
-    instanceJoined: (
+    listenerJoined: (
       lid,
       instanceId,
       instance,
@@ -41,31 +43,20 @@ test("instance listener function", async (): Promise<
       joinInstance
     ): void => {
       expect(lid).toEqual([
-        "test2.instanceJoined",
-        "join.instanceJoined",
+        "test2.listenerJoined",
+        "join.listenerJoined",
         "test2",
-        "join.instancesJoined",
-        "join.anyInstanceLoaded",
-        "listener.instanceLoaded",
+        "join.listenersJoined",
+        "join.anyListenerLoaded",
+        "listener.listenerLoaded",
         "test",
-        "listener.instancesLoaded",
+        "listener.listenersLoaded",
         "listener.load",
       ])
       expect(instanceId).toBe("test2")
       expect(instance).toBe(test2)
       expect(joinId).toBe("test")
       expect(joinInstance).toBe(test)
-    },
-    listenerBind: (
-      lid: string[],
-      instanceId: string
-    ): ListenerBind => {
-      return [
-        [
-          ["join.instanceJoined", instanceId, "**"],
-          `${instanceId}.instanceJoined`,
-        ],
-      ]
     },
   }
 
@@ -92,7 +83,7 @@ test("instance listener", (): void => {
       expect(lid).toEqual(["test2.fn", "hi"])
     }
 
-    private instanceJoined(
+    private listenerJoined(
       lid,
       instanceId,
       instance,
@@ -100,18 +91,6 @@ test("instance listener", (): void => {
     ): void {
       expect(instanceId).toBe("test2")
       expect(joinId).toBe("test")
-    }
-
-    private listenerBind(
-      lid: string[],
-      instanceId: string
-    ): ListenerBind {
-      return [
-        [
-          ["join.instanceJoined", instanceId, "**"],
-          `${instanceId}.instanceJoined`,
-        ],
-      ]
     }
   }
 
@@ -185,7 +164,7 @@ test("async join callback", async (): Promise<any> => {
 
   const test2 = {
     fn: (): void => {},
-    instanceJoined: async (
+    listenerJoined: async (
       lid: string,
       instanceId: string,
       instance: any,
@@ -198,17 +177,6 @@ test("async join callback", async (): Promise<any> => {
         expect(joinId).toBe("test")
         expect(joinInstance).toEqual(test)
       })
-    },
-    listenerBind: (
-      lid: string[],
-      instanceId: string
-    ): ListenerBind => {
-      return [
-        [
-          ["join.instanceJoined", instanceId, "**"],
-          `${instanceId}.instanceJoined`,
-        ],
-      ]
     },
   }
 
