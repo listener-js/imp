@@ -1,5 +1,4 @@
-import join from "../"
-import { ListenerJoins } from "../dist/types"
+import join, { ListenerJoins } from "../"
 
 import {
   load,
