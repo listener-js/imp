@@ -1,6 +1,6 @@
 import {
   Listener,
-  ListenerBind,
+  ListenerBindings,
 } from "@listener-js/listener"
 
 export class Join {
@@ -17,7 +17,7 @@ export class Join {
     if (
       options &&
       options.reload === true &&
-      Object.keys(instances).indexOf("join") < 0
+      Object.values(instances).indexOf(this) < 0
     ) {
       return
     }
@@ -34,7 +34,7 @@ export class Join {
           lid,
           ["join.listenerJoin", instanceId, "**"],
           `${instanceId}.listenerJoin`,
-          { append: true, return: true }
+          { append: true, listener: true, return: true }
         )
       }
 
@@ -42,7 +42,8 @@ export class Join {
         listener.bind(
           lid,
           ["join.listenerJoined", instanceId, "**"],
-          `${instanceId}.listenerJoined`
+          `${instanceId}.listenerJoined`,
+          { listener: true }
         )
       }
     }
@@ -119,7 +120,6 @@ export class Join {
     instance: any,
     joinInstanceId: string,
     joinInstance: any,
-    listener: Listener,
     options?: Record<string, any>
   ): void | Promise<any> {
     return
@@ -145,7 +145,7 @@ export class Join {
 
         const { promises: p } = listener.captureOutputs(
           lid,
-          [instanceId, instance, listener, options],
+          [instanceId, instance, options],
           { [id]: listener.instances[id] },
           this.listenerJoined
         )
@@ -165,7 +165,6 @@ export class Join {
     instance: any,
     joinInstanceId: string,
     joinInstance: any,
-    listener: Listener,
     options?: Record<string, any>
   ): void | Promise<any> {
     return
@@ -175,7 +174,7 @@ export class Join {
     lid: string[],
     instanceId: string,
     instance: any
-  ): ListenerBind {
+  ): ListenerBindings {
     return [
       [
         ["listener.load", "**"],

@@ -1,9 +1,9 @@
 import join from "../"
 
 import {
-  instance,
   load,
   reset,
+  Listener,
 } from "@listener-js/listener"
 
 import log from "@listener-js/log"
@@ -37,6 +37,7 @@ test("instance listener function", async (): Promise<
     },
     listenerJoined: (
       lid,
+      listener,
       instanceId,
       instance,
       joinId,
@@ -82,6 +83,7 @@ test("instance listener", (): void => {
 
     private listenerJoined(
       lid,
+      listener,
       instanceId,
       instance,
       joinId
@@ -163,6 +165,7 @@ test("async join callback", async (): Promise<any> => {
     fn: (): void => {},
     listenerJoined: async (
       lid: string,
+      listener: Listener,
       instanceId: string,
       instance: any,
       joinId: string,

@@ -77,7 +77,7 @@ ___
 
 ▸ **applyJoins**(`lid`: string[], `listener`: Listener, `instances`: Record‹string, any›): *void | Promise‹any›*
 
-Defined in join.ts:51
+Defined in join.ts:52
 
 **Parameters:**
 
@@ -95,7 +95,7 @@ ___
 
 ▸ **buildPromise**(`lid`: string[], `listener`: Listener, `instances`: Record‹string, any›, `options?`: Record‹string, any›): *void | Promise‹any›*
 
-Defined in join.ts:86
+Defined in join.ts:87
 
 **Parameters:**
 
@@ -112,9 +112,9 @@ ___
 
 ### `Private` listenerBindings
 
-▸ **listenerBindings**(`lid`: string[], `instanceId`: string, `instance`: any): *ListenerBind*
+▸ **listenerBindings**(`lid`: string[], `instanceId`: string, `instance`: any): *ListenerBindings*
 
-Defined in join.ts:174
+Defined in join.ts:173
 
 **Parameters:**
 
@@ -124,15 +124,15 @@ Name | Type |
 `instanceId` | string |
 `instance` | any |
 
-**Returns:** *ListenerBind*
+**Returns:** *ListenerBindings*
 
 ___
 
 ### `Private` listenerJoin
 
-▸ **listenerJoin**(`lid`: string[], `instanceId`: string, `instance`: any, `joinInstanceId`: string, `joinInstance`: any, `listener`: Listener, `options?`: Record‹string, any›): *void | Promise‹any›*
+▸ **listenerJoin**(`lid`: string[], `instanceId`: string, `instance`: any, `joinInstanceId`: string, `joinInstance`: any, `options?`: Record‹string, any›): *void | Promise‹any›*
 
-Defined in join.ts:116
+Defined in join.ts:117
 
 **Parameters:**
 
@@ -143,7 +143,6 @@ Name | Type |
 `instance` | any |
 `joinInstanceId` | string |
 `joinInstance` | any |
-`listener` | Listener |
 `options?` | Record‹string, any› |
 
 **Returns:** *void | Promise‹any›*
@@ -152,7 +151,7 @@ ___
 
 ### `Private` listenerJoined
 
-▸ **listenerJoined**(`lid`: string[], `instanceId`: string, `instance`: any, `joinInstanceId`: string, `joinInstance`: any, `listener`: Listener, `options?`: Record‹string, any›): *void | Promise‹any›*
+▸ **listenerJoined**(`lid`: string[], `instanceId`: string, `instance`: any, `joinInstanceId`: string, `joinInstance`: any, `options?`: Record‹string, any›): *void | Promise‹any›*
 
 Defined in join.ts:162
 
@@ -165,7 +164,6 @@ Name | Type |
 `instance` | any |
 `joinInstanceId` | string |
 `joinInstance` | any |
-`listener` | Listener |
 `options?` | Record‹string, any› |
 
 **Returns:** *void | Promise‹any›*
@@ -195,7 +193,7 @@ ___
 
 ▸ **parseId**(`id`: string, `listener`: Listener): *[string, string]*
 
-Defined in join.ts:213
+Defined in join.ts:212
 
 **Parameters:**
 
@@ -212,7 +210,7 @@ ___
 
 ▸ **promise**(`instanceId`: string): *Promise‹any›*
 
-Defined in join.ts:221
+Defined in join.ts:220
 
 **Parameters:**
 
@@ -228,7 +226,7 @@ ___
 
 ▸ **readJoins**(`lid`: string[], `listener`: Listener, `instances`: Record‹string, any›, `options?`: Record‹string, any›): *void | Promise‹any›*
 
-Defined in join.ts:229
+Defined in join.ts:228
 
 **Parameters:**
 
@@ -247,7 +245,7 @@ ___
 
 ▸ **waitForPromises**(`lid`: string[], `listener`: Listener, `instances`: Record‹string, any›): *void | Promise‹any›*
 
-Defined in join.ts:274
+Defined in join.ts:273
 
 **Parameters:**
 
