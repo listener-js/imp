@@ -3,8 +3,10 @@ import {
   ListenerBindings,
 } from "@listener-js/listener"
 
+import { ListenerJoins } from "./types"
+
 export class Join {
-  public joins: Record<string, string[][]> = {}
+  public joins: Record<string, ListenerJoins> = {}
   public promises: Record<string, Promise<any>> = {}
   private resolvers: Record<string, Function> = {}
 
@@ -29,11 +31,11 @@ export class Join {
         continue
       }
 
-      if (instance.listenerJoin) {
+      if (instance.listenerJoins) {
         listener.bind(
           lid,
-          ["join.listenerJoin", instanceId, "**"],
-          `${instanceId}.listenerJoin`,
+          ["join.listenerJoins", instanceId, "**"],
+          `${instanceId}.listenerJoins`,
           { append: true, listener: true, return: true }
         )
       }
@@ -61,24 +63,25 @@ export class Join {
         continue
       }
 
-      for (const [joinId] of this.joins[instanceId]) {
-        const [joinInstanceId, fnId] = this.parseId(
-          joinId,
-          listener
-        )
+      for (const [joinIds] of this.joins[instanceId]) {
+        for (const joinId of joinIds) {
+          const [joinInstanceId, fnId] = this.parseId(
+            joinId,
+            listener
+          )
 
-        if (fnId) {
-          instance[fnId] = (
-            id: string[],
-            ...args: any[]
-          ): any => {
-            return listener.instances[joinInstanceId][fnId](
-              [`${instanceId}.${fnId}`, ...id],
-              ...args
-            )
+          if (fnId) {
+            instance[fnId] = (
+              id: string[],
+              ...args: any[]
+            ): any => {
+              return listener.instances[joinInstanceId][
+                fnId
+              ]([`${instanceId}.${fnId}`, ...id], ...args)
+            }
+          } else {
+            instance[joinId] = listener.instances[joinId]
           }
-        } else {
-          instance[joinId] = listener.instances[joinId]
         }
       }
     }
@@ -114,7 +117,7 @@ export class Join {
     }
   }
 
-  private listenerJoin(
+  private listenerJoins(
     lid: string[],
     instanceId: string,
     instance: any,
@@ -140,17 +143,21 @@ export class Join {
         continue
       }
 
-      for (const [joinId] of this.joins[instanceId]) {
-        const [id] = this.parseId(joinId, listener)
+      for (const [joinIds, joinOptions] of this.joins[
+        instanceId
+      ]) {
+        for (const joinId of joinIds) {
+          const [id] = this.parseId(joinId, listener)
 
-        const { promises: p } = listener.captureOutputs(
-          lid,
-          [instanceId, instance, options],
-          { [id]: listener.instances[id] },
-          this.listenerJoined
-        )
+          const { promises: p } = listener.captureOutputs(
+            lid,
+            [instanceId, instance, joinOptions, options],
+            { [id]: listener.instances[id] },
+            this.listenerJoined
+          )
 
-        promises = promises.concat(p)
+          promises = promises.concat(p)
+        }
       }
     }
 
@@ -165,7 +172,8 @@ export class Join {
     instance: any,
     joinInstanceId: string,
     joinInstance: any,
-    options?: Record<string, any>
+    joinOptions?: Record<string, any>,
+    listenOptions?: Record<string, any>
   ): void | Promise<any> {
     return
   }
@@ -243,7 +251,7 @@ export class Join {
         lid,
         [listener, options],
         { [instanceId]: instance },
-        this.listenerJoin
+        this.listenerJoins
       )
 
       this.joins = {
@@ -255,7 +263,7 @@ export class Join {
         const promise = promisesById[id]
 
         promises.push(
-          promise.then((join: string[][]): void => {
+          promise.then((join: ListenerJoins): void => {
             this.joins = {
               ...this.joins,
               [id]: join,
@@ -283,11 +291,13 @@ export class Join {
       }
 
       if (this.joins[instanceId]) {
-        for (const [joinId] of this.joins[instanceId]) {
-          const [id] = this.parseId(joinId, listener)
+        for (const [joinIds] of this.joins[instanceId]) {
+          for (const joinId of joinIds) {
+            const [id] = this.parseId(joinId, listener)
 
-          if (this.promises[id]) {
-            promises.push(this.promises[id])
+            if (this.promises[id]) {
+              promises.push(this.promises[id])
+            }
           }
         }
       }

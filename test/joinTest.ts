@@ -1,4 +1,5 @@
 import join from "../"
+import { ListenerJoins } from "../dist/types"
 
 import {
   load,
@@ -26,8 +27,8 @@ test("instance listener function", async (): Promise<
 
   const test = {
     fn: (id: string[]): void => {},
-    listenerJoin: (lid): string[][] => {
-      return [["test2.fn"]]
+    listenerJoins: (lid): ListenerJoins => {
+      return [[["test2.fn"]]]
     },
   }
 
@@ -68,8 +69,8 @@ test("instance listener", (): void => {
   expect.assertions(3)
 
   class Test {
-    private listenerJoin(lid): string[][] {
-      return [["test2"]]
+    private listenerJoins(lid): ListenerJoins {
+      return [[["test2"]]]
     }
     public test2: Test2
   }
@@ -129,7 +130,7 @@ test("async listener wait for dependency", (): Promise<
 
   const test = {
     fn: undefined,
-    listenerJoin: (lid): string[][] => [["test2.fn"]],
+    listenerJoins: (lid): ListenerJoins => [[["test2.fn"]]],
   }
 
   const test2 = {
@@ -158,7 +159,7 @@ test("async join callback", async (): Promise<any> => {
 
   const test = {
     fn: undefined,
-    listenerJoin: (lid): string[][] => [["test2.fn"]],
+    listenerJoins: (lid): ListenerJoins => [[["test2.fn"]]],
   }
 
   const test2 = {

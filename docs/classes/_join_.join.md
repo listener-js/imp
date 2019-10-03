@@ -20,8 +20,8 @@
 * [applyJoins](_join_.join.md#private-applyjoins)
 * [buildPromise](_join_.join.md#private-buildpromise)
 * [listenerBindings](_join_.join.md#private-listenerbindings)
-* [listenerJoin](_join_.join.md#private-listenerjoin)
 * [listenerJoined](_join_.join.md#private-listenerjoined)
+* [listenerJoins](_join_.join.md#private-listenerjoins)
 * [listenersJoined](_join_.join.md#private-listenersjoined)
 * [parseId](_join_.join.md#private-parseid)
 * [promise](_join_.join.md#private-promise)
@@ -32,9 +32,9 @@
 
 ###  joins
 
-• **joins**: *Record‹string, string[][]›*
+• **joins**: *Record‹string, [ListenerJoins](../modules/_types_.md#listenerjoins)›*
 
-Defined in join.ts:7
+Defined in join.ts:9
 
 ___
 
@@ -42,7 +42,7 @@ ___
 
 • **promises**: *Record‹string, Promise‹any››*
 
-Defined in join.ts:8
+Defined in join.ts:10
 
 ___
 
@@ -50,7 +50,7 @@ ___
 
 • **resolvers**: *Record‹string, Function›*
 
-Defined in join.ts:9
+Defined in join.ts:11
 
 ## Methods
 
@@ -58,7 +58,7 @@ Defined in join.ts:9
 
 ▸ **applyCallbacksBindings**(`lid`: string[], `listener`: Listener, `instances`: Record‹string, any›, `options?`: Record‹string, any›): *void | Promise‹any›*
 
-Defined in join.ts:11
+Defined in join.ts:13
 
 **Parameters:**
 
@@ -77,7 +77,7 @@ ___
 
 ▸ **applyJoins**(`lid`: string[], `listener`: Listener, `instances`: Record‹string, any›): *void | Promise‹any›*
 
-Defined in join.ts:52
+Defined in join.ts:54
 
 **Parameters:**
 
@@ -95,7 +95,7 @@ ___
 
 ▸ **buildPromise**(`lid`: string[], `listener`: Listener, `instances`: Record‹string, any›, `options?`: Record‹string, any›): *void | Promise‹any›*
 
-Defined in join.ts:87
+Defined in join.ts:90
 
 **Parameters:**
 
@@ -114,7 +114,7 @@ ___
 
 ▸ **listenerBindings**(`lid`: string[], `instanceId`: string, `instance`: any): *ListenerBindings*
 
-Defined in join.ts:173
+Defined in join.ts:181
 
 **Parameters:**
 
@@ -128,11 +128,11 @@ Name | Type |
 
 ___
 
-### `Private` listenerJoin
+### `Private` listenerJoined
 
-▸ **listenerJoin**(`lid`: string[], `instanceId`: string, `instance`: any, `joinInstanceId`: string, `joinInstance`: any, `options?`: Record‹string, any›): *void | Promise‹any›*
+▸ **listenerJoined**(`lid`: string[], `instanceId`: string, `instance`: any, `joinInstanceId`: string, `joinInstance`: any, `joinOptions?`: Record‹string, any›, `listenOptions?`: Record‹string, any›): *void | Promise‹any›*
 
-Defined in join.ts:117
+Defined in join.ts:169
 
 **Parameters:**
 
@@ -143,17 +143,18 @@ Name | Type |
 `instance` | any |
 `joinInstanceId` | string |
 `joinInstance` | any |
-`options?` | Record‹string, any› |
+`joinOptions?` | Record‹string, any› |
+`listenOptions?` | Record‹string, any› |
 
 **Returns:** *void | Promise‹any›*
 
 ___
 
-### `Private` listenerJoined
+### `Private` listenerJoins
 
-▸ **listenerJoined**(`lid`: string[], `instanceId`: string, `instance`: any, `joinInstanceId`: string, `joinInstance`: any, `options?`: Record‹string, any›): *void | Promise‹any›*
+▸ **listenerJoins**(`lid`: string[], `instanceId`: string, `instance`: any, `joinInstanceId`: string, `joinInstance`: any, `options?`: Record‹string, any›): *void | Promise‹any›*
 
-Defined in join.ts:162
+Defined in join.ts:120
 
 **Parameters:**
 
@@ -174,7 +175,7 @@ ___
 
 ▸ **listenersJoined**(`lid`: string[], `listener`: Listener, `instances`: Record‹string, any›, `options?`: Record‹string, any›): *void | Promise‹any›*
 
-Defined in join.ts:128
+Defined in join.ts:131
 
 **Parameters:**
 
@@ -193,7 +194,7 @@ ___
 
 ▸ **parseId**(`id`: string, `listener`: Listener): *[string, string]*
 
-Defined in join.ts:212
+Defined in join.ts:220
 
 **Parameters:**
 
@@ -210,7 +211,7 @@ ___
 
 ▸ **promise**(`instanceId`: string): *Promise‹any›*
 
-Defined in join.ts:220
+Defined in join.ts:228
 
 **Parameters:**
 
@@ -226,7 +227,7 @@ ___
 
 ▸ **readJoins**(`lid`: string[], `listener`: Listener, `instances`: Record‹string, any›, `options?`: Record‹string, any›): *void | Promise‹any›*
 
-Defined in join.ts:228
+Defined in join.ts:236
 
 **Parameters:**
 
@@ -245,7 +246,7 @@ ___
 
 ▸ **waitForPromises**(`lid`: string[], `listener`: Listener, `instances`: Record‹string, any›): *void | Promise‹any›*
 
-Defined in join.ts:273
+Defined in join.ts:281
 
 **Parameters:**
 

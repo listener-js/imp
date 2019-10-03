@@ -7,3 +7,4 @@
 ### External modules
 
 * ["join"](modules/_join_.md)
+* ["types"](modules/_types_.md)
