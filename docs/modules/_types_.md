@@ -4,6 +4,10 @@
 
 ## Index
 
+### Interfaces
+
+* [ListenerJoinEvent](../interfaces/_types_.listenerjoinevent.md)
+
 ### Type aliases
 
 * [ListenerJoins](_types_.md#listenerjoins)
@@ -15,7 +19,7 @@
 
 Ƭ **ListenerJoins**: *[string[], object][]*
 
-Defined in types.ts:2
+Defined in types.ts:5
 
 ___
 
@@ -23,6 +27,6 @@ ___
 
 Ƭ **ListenerJoinsOptions**: *object*
 
-Defined in types.ts:1
+Defined in types.ts:3
 
 #### Type declaration:

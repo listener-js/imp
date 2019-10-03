@@ -1,11 +1,13 @@
 import {
   Listener,
   ListenerBindings,
+  ListenerEvent,
 } from "@listener-js/listener"
 
-import { ListenerJoins } from "./types"
+import { ListenerJoins, ListenerJoinEvent } from "./types"
 
 export class Join {
+  public id: string
   public joins: Record<string, ListenerJoins> = {}
   public promises: Record<string, Promise<any>> = {}
   private resolvers: Record<string, Function> = {}
@@ -44,8 +46,7 @@ export class Join {
         listener.bind(
           lid,
           ["join.listenerJoined", instanceId, "**"],
-          `${instanceId}.listenerJoined`,
-          { listener: true }
+          `${instanceId}.listenerJoined`
         )
       }
     }
@@ -77,7 +78,7 @@ export class Join {
             ): any => {
               return listener.instances[joinInstanceId][
                 fnId
-              ]([`${instanceId}.${fnId}`, ...id], ...args)
+              ]([`${instance.id}.${fnId}`, ...id], ...args)
             }
           } else {
             instance[joinId] = listener.instances[joinId]
@@ -119,11 +120,7 @@ export class Join {
 
   private listenerJoins(
     lid: string[],
-    instanceId: string,
-    instance: any,
-    joinInstanceId: string,
-    joinInstance: any,
-    options?: Record<string, any>
+    event: ListenerEvent
   ): void | Promise<any> {
     return
   }
@@ -151,8 +148,11 @@ export class Join {
 
           const { promises: p } = listener.captureOutputs(
             lid,
-            [instanceId, instance, joinOptions, options],
             { [id]: listener.instances[id] },
+            {
+              joinInstance: instance,
+              options: { ...options, joinOptions },
+            },
             this.listenerJoined
           )
 
@@ -168,50 +168,44 @@ export class Join {
 
   private listenerJoined(
     lid: string[],
-    instanceId: string,
-    instance: any,
-    joinInstanceId: string,
-    joinInstance: any,
-    joinOptions?: Record<string, any>,
-    listenOptions?: Record<string, any>
+    event: ListenerJoinEvent
   ): void | Promise<any> {
     return
   }
 
   private listenerBindings(
     lid: string[],
-    instanceId: string,
-    instance: any
+    { instance, listener }: ListenerEvent
   ): ListenerBindings {
     return [
       [
-        ["listener.load", "**"],
-        `${instanceId}.applyCallbacksBindings`,
+        [`${listener.id}.load`, "**"],
+        `${instance.id}.applyCallbacksBindings`,
         { listener: true, prepend: true },
       ],
       [
-        ["listener.load", "**"],
-        `${instanceId}.buildPromise`,
+        [`${listener.id}.load`, "**"],
+        `${instance.id}.buildPromise`,
         { append: 0.1, listener: true },
       ],
       [
-        ["listener.load", "**"],
-        `${instanceId}.readJoins`,
+        [`${listener.id}.load`, "**"],
+        `${instance.id}.readJoins`,
         { append: 0.2, listener: true },
       ],
       [
-        ["listener.load", "**"],
-        `${instanceId}.waitForPromises`,
+        [`${listener.id}.load`, "**"],
+        `${instance.id}.waitForPromises`,
         { append: 0.3, listener: true },
       ],
       [
-        ["listener.load", "**"],
-        `${instanceId}.applyJoins`,
+        [`${listener.id}.load`, "**"],
+        `${instance.id}.applyJoins`,
         { append: 0.4, listener: true },
       ],
       [
-        ["listener.load", "**"],
-        `${instanceId}.listenersJoined`,
+        [`${listener.id}.load`, "**"],
+        `${instance.id}.listenersJoined`,
         { append: 0.5, listener: true },
       ],
     ]
@@ -249,8 +243,8 @@ export class Join {
         valuesById,
       } = listener.captureOutputs(
         lid,
-        [listener, options],
         { [instanceId]: instance },
+        { options },
         this.listenerJoins
       )
 

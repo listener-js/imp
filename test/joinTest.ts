@@ -1,4 +1,4 @@
-import join, { ListenerJoins } from "../"
+import join, { ListenerJoins, ListenerJoinEvent } from "../"
 
 import {
   load,
@@ -37,11 +37,7 @@ test("instance listener function", async (): Promise<
     },
     listenerJoined: (
       lid,
-      listener,
-      instanceId,
-      instance,
-      joinId,
-      joinInstance
+      { instance, joinInstance }: ListenerJoinEvent
     ): void => {
       expect(lid).toEqual([
         "test2.listenerJoined",
@@ -51,9 +47,9 @@ test("instance listener function", async (): Promise<
         "listener.load",
         "listener.load",
       ])
-      expect(instanceId).toBe("test2")
+      expect(instance.id).toBe("test2")
       expect(instance).toBe(test2)
-      expect(joinId).toBe("test")
+      expect(joinInstance.id).toBe("test")
       expect(joinInstance).toBe(test)
     },
   }
@@ -83,13 +79,10 @@ test("instance listener", (): void => {
 
     private listenerJoined(
       lid,
-      listener,
-      instanceId,
-      instance,
-      joinId
+      { instance, joinInstance }: ListenerJoinEvent
     ): void {
-      expect(instanceId).toBe("test2")
-      expect(joinId).toBe("test")
+      expect(instance.id).toBe("test2")
+      expect(joinInstance.id).toBe("test")
     }
   }
 
@@ -165,16 +158,12 @@ test("async join callback", async (): Promise<any> => {
     fn: (): void => {},
     listenerJoined: async (
       lid: string,
-      listener: Listener,
-      instanceId: string,
-      instance: any,
-      joinId: string,
-      joinInstance: any
+      { instance, joinInstance }: ListenerJoinEvent
     ): Promise<any> => {
       return delay(1).then((): void => {
-        expect(instanceId).toBe("test2")
+        expect(instance.id).toBe("test2")
         expect(instance).toEqual(test2)
-        expect(joinId).toBe("test")
+        expect(joinInstance.id).toBe("test")
         expect(joinInstance).toEqual(test)
       })
     },
