@@ -36,7 +36,7 @@ export class Join {
       if (instance.listenerJoins) {
         listener.bind(
           lid,
-          ["join.listenerJoins", instanceId, "**"],
+          [`${this.id}.listenerJoins`, instanceId, "**"],
           `${instanceId}.listenerJoins`,
           { append: true, return: true }
         )
@@ -45,7 +45,7 @@ export class Join {
       if (instance.listenerJoined) {
         listener.bind(
           lid,
-          ["join.listenerJoined", instanceId, "**"],
+          [`${this.id}.listenerJoined`, instanceId, "**"],
           `${instanceId}.listenerJoined`
         )
       }
