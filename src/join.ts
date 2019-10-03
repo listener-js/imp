@@ -36,7 +36,7 @@ export class Join {
           lid,
           ["join.listenerJoins", instanceId, "**"],
           `${instanceId}.listenerJoins`,
-          { append: true, listener: true, return: true }
+          { append: true, return: true }
         )
       }
 
