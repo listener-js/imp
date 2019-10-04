@@ -132,7 +132,7 @@ ___
 
 ▸ **listenerBindings**(`lid`: string[], `__namedParameters`: object): *ListenerBindings*
 
-Defined in join.ts:152
+Defined in join.ts:103
 
 **Parameters:**
 
@@ -154,7 +154,7 @@ ___
 
 ▸ **listenerJoined**(`lid`: string[], `event`: [ListenerJoinEvent](../interfaces/_types_.listenerjoinevent.md)): *void | Promise‹any›*
 
-Defined in join.ts:145
+Defined in join.ts:188
 
 **Parameters:**
 
@@ -171,7 +171,7 @@ ___
 
 ▸ **listenerJoins**(`lid`: string[], `event`: ListenerEvent): *void | Promise‹any›*
 
-Defined in join.ts:103
+Defined in join.ts:195
 
 **Parameters:**
 
@@ -188,7 +188,7 @@ ___
 
 ▸ **listenersJoined**(`lid`: string[], `__namedParameters`: object): *void | Promise‹any›*
 
-Defined in join.ts:110
+Defined in join.ts:153
 
 **Parameters:**
 

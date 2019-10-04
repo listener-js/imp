@@ -100,55 +100,6 @@ export class Join {
     }
   }
 
-  private listenerJoins(
-    lid: string[],
-    event: ListenerEvent
-  ): void | Promise<any> {
-    return
-  }
-
-  private listenersJoined(
-    lid: string[],
-    { listener, instance, options }: ListenerEvent
-  ): void | Promise<any> {
-    let promises = []
-
-    if (!this.joins[instance.id]) {
-      return
-    }
-
-    for (const [joinIds, joinOptions] of this.joins[
-      instance.id
-    ]) {
-      for (const joinId of joinIds) {
-        const [id] = this.parseId(joinId, listener)
-
-        const { promises: p } = listener.captureOutputs(
-          lid,
-          { [id]: listener.instances[id] },
-          {
-            joinInstance: instance,
-            options: { ...options, joinOptions },
-          },
-          this.listenerJoined
-        )
-
-        promises = promises.concat(p)
-      }
-    }
-
-    if (promises.length) {
-      return Promise.all(promises)
-    }
-  }
-
-  private listenerJoined(
-    lid: string[],
-    event: ListenerJoinEvent
-  ): void | Promise<any> {
-    return
-  }
-
   private listenerBindings(
     lid: string[],
     { instance, instances, listener }: ListenerEvent
@@ -197,6 +148,55 @@ export class Join {
         { append: 0.5 },
       ],
     ]
+  }
+
+  private listenersJoined(
+    lid: string[],
+    { listener, instance, options }: ListenerEvent
+  ): void | Promise<any> {
+    let promises = []
+
+    if (!this.joins[instance.id]) {
+      return
+    }
+
+    for (const [joinIds, joinOptions] of this.joins[
+      instance.id
+    ]) {
+      for (const joinId of joinIds) {
+        const [id] = this.parseId(joinId, listener)
+
+        const { promises: p } = listener.captureOutputs(
+          lid,
+          { [id]: listener.instances[id] },
+          {
+            joinInstance: instance,
+            options: { ...options, joinOptions },
+          },
+          this.listenerJoined
+        )
+
+        promises = promises.concat(p)
+      }
+    }
+
+    if (promises.length) {
+      return Promise.all(promises)
+    }
+  }
+
+  private listenerJoined(
+    lid: string[],
+    event: ListenerJoinEvent
+  ): void | Promise<any> {
+    return
+  }
+
+  private listenerJoins(
+    lid: string[],
+    event: ListenerEvent
+  ): void | Promise<any> {
+    return
   }
 
   private parseId(
