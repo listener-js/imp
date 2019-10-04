@@ -12,37 +12,6 @@ export class Join {
   public promises: Record<string, Promise<any>> = {}
   private resolvers: Record<string, Function> = {}
 
-  private addCallbackBindings(
-    lid: string[],
-    value: ListenerBindings,
-    { instance }: ListenerEvent
-  ): ListenerBindings {
-    const bindings: ListenerBindings = value
-      ? value.slice(0)
-      : []
-
-    if (instance === this) {
-      return bindings
-    }
-
-    if (instance.listenerJoins) {
-      bindings.push([
-        [`${this.id}.listenerJoins`, instance.id, "**"],
-        `${instance.id}.listenerJoins`,
-        { append: true, return: true },
-      ])
-    }
-
-    if (instance.listenerJoined) {
-      bindings.push([
-        [`${this.id}.listenerJoined`, instance.id, "**"],
-        `${instance.id}.listenerJoined`,
-      ])
-    }
-
-    return bindings
-  }
-
   private applyJoins(
     lid: string[],
     { listener, instance }: ListenerEvent
@@ -102,26 +71,9 @@ export class Join {
 
   private listenerBindings(
     lid: string[],
-    { instance, instances, listener }: ListenerEvent
+    { instance, listener }: ListenerEvent
   ): ListenerBindings {
-    let bindings: ListenerBindings = []
-
-    for (const instanceId in instances) {
-      bindings = bindings.concat(
-        this.addCallbackBindings(lid, [], {
-          instance: instances[instanceId],
-          listener,
-        })
-      )
-    }
-
     return [
-      ...bindings,
-      [
-        ["listener.listenerBindings", "**"],
-        `${this.id}.addCallbackBindings`,
-        { intercept: true },
-      ],
       [
         [`${listener.id}.listenerLoaded`, "**"],
         `${instance.id}.buildPromise`,
@@ -148,6 +100,35 @@ export class Join {
         { append: 0.5 },
       ],
     ]
+  }
+
+  private listenerExtendBindings(
+    lid: string[],
+    value: ListenerBindings = [],
+    { instance }: ListenerEvent
+  ): ListenerBindings {
+    if (instance === this) {
+      return value
+    }
+
+    const bindings: ListenerBindings = value.slice(0)
+
+    if (instance.listenerJoins) {
+      bindings.push([
+        [`${this.id}.listenerJoins`, instance.id, "**"],
+        `${instance.id}.listenerJoins`,
+        { append: true, return: true },
+      ])
+    }
+
+    if (instance.listenerJoined) {
+      bindings.push([
+        [`${this.id}.listenerJoined`, instance.id, "**"],
+        `${instance.id}.listenerJoined`,
+      ])
+    }
+
+    return bindings
   }
 
   private listenersJoined(

@@ -17,10 +17,10 @@
 
 ### Methods
 
-* [addCallbackBindings](_join_.join.md#private-addcallbackbindings)
 * [applyJoins](_join_.join.md#private-applyjoins)
 * [buildPromise](_join_.join.md#private-buildpromise)
 * [listenerBindings](_join_.join.md#private-listenerbindings)
+* [listenerExtendBindings](_join_.join.md#private-listenerextendbindings)
 * [listenerJoined](_join_.join.md#private-listenerjoined)
 * [listenerJoins](_join_.join.md#private-listenerjoins)
 * [listenersJoined](_join_.join.md#private-listenersjoined)
@@ -63,33 +63,11 @@ Defined in join.ts:13
 
 ## Methods
 
-### `Private` addCallbackBindings
-
-▸ **addCallbackBindings**(`lid`: string[], `value`: ListenerBindings, `__namedParameters`: object): *ListenerBindings*
-
-Defined in join.ts:15
-
-**Parameters:**
-
-▪ **lid**: *string[]*
-
-▪ **value**: *ListenerBindings*
-
-▪ **__namedParameters**: *object*
-
-Name | Type |
------- | ------ |
-`instance` | any |
-
-**Returns:** *ListenerBindings*
-
-___
-
 ### `Private` applyJoins
 
 ▸ **applyJoins**(`lid`: string[], `__namedParameters`: object): *void | Promise‹any›*
 
-Defined in join.ts:46
+Defined in join.ts:15
 
 **Parameters:**
 
@@ -110,7 +88,7 @@ ___
 
 ▸ **buildPromise**(`lid`: string[], `__namedParameters`: object): *void | Promise‹any›*
 
-Defined in join.ts:78
+Defined in join.ts:47
 
 **Parameters:**
 
@@ -132,7 +110,7 @@ ___
 
 ▸ **listenerBindings**(`lid`: string[], `__namedParameters`: object): *ListenerBindings*
 
-Defined in join.ts:103
+Defined in join.ts:72
 
 **Parameters:**
 
@@ -143,8 +121,29 @@ Defined in join.ts:103
 Name | Type |
 ------ | ------ |
 `instance` | any |
-`instances` | object |
 `listener` | Listener |
+
+**Returns:** *ListenerBindings*
+
+___
+
+### `Private` listenerExtendBindings
+
+▸ **listenerExtendBindings**(`lid`: string[], `value`: ListenerBindings, `__namedParameters`: object): *ListenerBindings*
+
+Defined in join.ts:105
+
+**Parameters:**
+
+▪ **lid**: *string[]*
+
+▪`Default value`  **value**: *ListenerBindings*=  []
+
+▪ **__namedParameters**: *object*
+
+Name | Type |
+------ | ------ |
+`instance` | any |
 
 **Returns:** *ListenerBindings*
 
@@ -154,7 +153,7 @@ ___
 
 ▸ **listenerJoined**(`lid`: string[], `event`: [ListenerJoinEvent](../interfaces/_types_.listenerjoinevent.md)): *void | Promise‹any›*
 
-Defined in join.ts:188
+Defined in join.ts:169
 
 **Parameters:**
 
@@ -171,7 +170,7 @@ ___
 
 ▸ **listenerJoins**(`lid`: string[], `event`: ListenerEvent): *void | Promise‹any›*
 
-Defined in join.ts:195
+Defined in join.ts:176
 
 **Parameters:**
 
@@ -188,7 +187,7 @@ ___
 
 ▸ **listenersJoined**(`lid`: string[], `__namedParameters`: object): *void | Promise‹any›*
 
-Defined in join.ts:153
+Defined in join.ts:134
 
 **Parameters:**
 
@@ -210,7 +209,7 @@ ___
 
 ▸ **parseId**(`id`: string, `listener`: Listener): *[string, string]*
 
-Defined in join.ts:202
+Defined in join.ts:183
 
 **Parameters:**
 
@@ -227,7 +226,7 @@ ___
 
 ▸ **promise**(`instanceId`: string): *Promise‹any›*
 
-Defined in join.ts:210
+Defined in join.ts:191
 
 **Parameters:**
 
@@ -243,7 +242,7 @@ ___
 
 ▸ **readJoins**(`lid`: string[], `__namedParameters`: object): *void | Promise‹any›*
 
-Defined in join.ts:218
+Defined in join.ts:199
 
 **Parameters:**
 
@@ -265,7 +264,7 @@ ___
 
 ▸ **waitForPromises**(`lid`: string[], `__namedParameters`: object): *void | Promise‹any›*
 
-Defined in join.ts:257
+Defined in join.ts:238
 
 **Parameters:**
 
