@@ -1,11 +1,5 @@
 import join, { ListenerJoins, ListenerJoinEvent } from "../"
-
-import {
-  load,
-  reset,
-  Listener,
-} from "@listener-js/listener"
-
+import { load, reset } from "@listener-js/listener"
 import log from "@listener-js/log"
 
 function delay(t: number, v?: any): Promise<any> {
@@ -44,7 +38,9 @@ test("instance listener function", async (): Promise<
         "join.listenerJoined",
         "test2",
         "join.listenersJoined",
-        "listener.load",
+        "listener.listenerLoaded",
+        "test",
+        "listener.listenersLoaded",
         "listener.load",
       ])
       expect(instance.id).toBe("test2")

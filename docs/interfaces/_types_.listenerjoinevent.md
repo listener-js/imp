@@ -13,6 +13,7 @@
 ### Properties
 
 * [instance](_types_.listenerjoinevent.md#instance)
+* [instances](_types_.listenerjoinevent.md#optional-instances)
 * [joinInstance](_types_.listenerjoinevent.md#joininstance)
 * [listener](_types_.listenerjoinevent.md#listener)
 * [options](_types_.listenerjoinevent.md#optional-options)
@@ -26,6 +27,16 @@
 *Inherited from void*
 
 Defined in /Users/winton/Dropbox/cyclops/projects3/@listener-js/join/node_modules/@listener-js/listener/dist/types.d.ts:3
+
+___
+
+### `Optional` instances
+
+• **instances**? : *Record‹string, any›*
+
+*Inherited from void*
+
+Defined in /Users/winton/Dropbox/cyclops/projects3/@listener-js/join/node_modules/@listener-js/listener/dist/types.d.ts:5
 
 ___
 
@@ -53,4 +64,4 @@ ___
 
 *Inherited from void*
 
-Defined in /Users/winton/Dropbox/cyclops/projects3/@listener-js/join/node_modules/@listener-js/listener/dist/types.d.ts:5
+Defined in /Users/winton/Dropbox/cyclops/projects3/@listener-js/join/node_modules/@listener-js/listener/dist/types.d.ts:6

@@ -24,7 +24,7 @@
     "docs": "typedoc --out docs --media media --theme markdown src/*.ts"
   },
   "devDependencies": {
-    "@listener-js/listener": "2.21.0",
+    "@listener-js/listener": "2.22.0",
     "@listener-js/log": "1.30.0",
     "@types/jest": "24.0.18",
     "@types/node": "12.7.11",
