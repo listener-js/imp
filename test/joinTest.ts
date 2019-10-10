@@ -1,5 +1,9 @@
 import join, { ListenerJoins, ListenerJoinEvent } from "../"
-import { load, reset } from "@listener-js/listener"
+import {
+  load,
+  reset,
+  ListenerEvent,
+} from "@listener-js/listener"
 import log from "@listener-js/log"
 
 function delay(t: number, v?: any): Promise<any> {
@@ -20,8 +24,11 @@ test("instance listener function", async (): Promise<
 
   const test = {
     fn: (id: string[]): void => {},
-    listenerJoins: (lid): ListenerJoins => {
-      return [[["test2.fn"]]]
+    listenerLoaded: (
+      lid: string[],
+      { instance, listener }: ListenerEvent
+    ): void => {
+      listener.join(lid, instance.id, [["test2.fn"]])
     },
   }
 
@@ -50,8 +57,9 @@ test("instance listener function", async (): Promise<
     },
   }
 
+  load([], { test2 })
   // eslint-disable-next-line sort-keys
-  load([], { test, test2, join })
+  load([], { test, join })
 
   test.fn(["hi"])
 })
@@ -60,9 +68,13 @@ test("instance listener", (): void => {
   expect.assertions(3)
 
   class Test {
-    private listenerJoins(lid): ListenerJoins {
-      return [[["test2"]]]
+    private listenerLoaded(
+      lid: string[],
+      { instance, listener }: ListenerEvent
+    ): void {
+      listener.join(lid, instance.id, [["test2"]])
     }
+
     public test2: Test2
   }
 
@@ -118,7 +130,12 @@ test("async listener wait for dependency", (): Promise<
 
   const test = {
     fn: undefined,
-    listenerJoins: (lid): ListenerJoins => [[["test2.fn"]]],
+    listenerLoaded: (
+      lid: string[],
+      { instance, listener }: ListenerEvent
+    ): void => {
+      listener.join(lid, instance.id, [["test2.fn"]])
+    },
   }
 
   const test2 = {
@@ -147,7 +164,12 @@ test("async join callback", async (): Promise<any> => {
 
   const test = {
     fn: undefined,
-    listenerJoins: (lid): ListenerJoins => [[["test2.fn"]]],
+    listenerLoaded: (
+      lid: string[],
+      { instance, listener }: ListenerEvent
+    ): void => {
+      listener.join(lid, instance.id, [["test2.fn"]])
+    },
   }
 
   const test2 = {

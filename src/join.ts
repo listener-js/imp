@@ -1,16 +1,35 @@
 import {
   Listener,
-  ListenerBindings,
   ListenerEvent,
 } from "@listener-js/listener"
 
 import { ListenerJoins, ListenerJoinEvent } from "./types"
 
+declare module "@listener-js/listener" {
+  interface Listener {
+    join(
+      lid: string[],
+      instanceId: string,
+      ...joins: ListenerJoins
+    ): void | Promise<void>
+  }
+}
+
 export class Join {
   public id: string
   public joins: Record<string, ListenerJoins> = {}
   public promises: Record<string, Promise<any>> = {}
+
   private resolvers: Record<string, Function> = {}
+
+  public join(
+    lid: string[],
+    instanceId: string,
+    ...joins: ListenerJoins
+  ): void {
+    const j = this.joins[instanceId]
+    this.joins[instanceId] = j ? j.concat(joins) : joins
+  }
 
   private applyJoins(
     lid: string[],
@@ -69,66 +88,52 @@ export class Join {
     }
   }
 
-  private listenerBindings(
+  private listenerBeforeLoaded(
     lid: string[],
-    { instance, listener }: ListenerEvent
-  ): ListenerBindings {
-    return [
-      [
-        [`${listener.id}.listenerLoaded`, "**"],
-        `${instance.id}.buildPromise`,
-        { append: 0.1 },
-      ],
-      [
-        [`${listener.id}.listenerLoaded`, "**"],
-        `${instance.id}.readJoins`,
-        { append: 0.2 },
-      ],
-      [
-        [`${listener.id}.listenerLoaded`, "**"],
-        `${instance.id}.waitForPromises`,
-        { append: 0.3 },
-      ],
-      [
-        [`${listener.id}.listenerLoaded`, "**"],
-        `${instance.id}.applyJoins`,
-        { append: 0.4 },
-      ],
-      [
-        [`${listener.id}.listenerLoaded`, "**"],
-        `${instance.id}.listenersJoined`,
-        { append: 0.5 },
-      ],
-    ]
+    event: ListenerEvent
+  ): void {
+    const { existing, listener } = event
+
+    listener["join"] = this.join.bind(this)
+
+    for (const instanceId of existing) {
+      this.listenerBeforeLoadedAny(lid, {
+        ...event,
+        instance: listener.instances[instanceId],
+      })
+    }
   }
 
-  private listenerExtendBindings(
+  private listenerBeforeLoadedAny(
     lid: string[],
-    value: ListenerBindings = [],
-    { instance }: ListenerEvent
-  ): ListenerBindings {
-    if (instance === this) {
-      return value
-    }
+    { instance, listener }: ListenerEvent
+  ): void {
+    listener.bind(
+      lid,
+      [`${listener.id}.listenerLoaded`, "**"],
+      [`${this.id}.buildPromise`, { append: 100 }],
+      [`${this.id}.waitForPromises`, { append: 100.1 }],
+      [`${this.id}.applyJoins`, { append: 100.2 }],
+      [`${this.id}.listenersJoined`, { append: 100.3 }]
+    )
 
-    const bindings: ListenerBindings = value.slice(0)
-
-    if (instance.listenerJoins) {
-      bindings.push([
-        [`${this.id}.listenerJoins`, instance.id, "**"],
-        `${instance.id}.listenerJoins`,
-        { append: true, return: true },
-      ])
-    }
-
-    if (instance.listenerJoined) {
-      bindings.push([
+    if (instance !== this && instance.listenerJoined) {
+      listener.bind(
+        lid,
         [`${this.id}.listenerJoined`, instance.id, "**"],
-        `${instance.id}.listenerJoined`,
-      ])
+        `${instance.id}.listenerJoined`
+      )
     }
+  }
 
-    return bindings
+  private listenerReset(
+    lid: string[],
+    listener: Listener
+  ): void {
+    delete listener["join"]
+    this.joins = {}
+    this.promises = {}
+    this.resolvers = {}
   }
 
   private listenersJoined(
@@ -194,45 +199,6 @@ export class Join {
       new Promise((resolve): void => {
         this.resolvers[instanceId] = resolve
       }))
-  }
-
-  private readJoins(
-    lid: string[],
-    { listener, instance, options }: ListenerEvent
-  ): void | Promise<any> {
-    const promises = []
-
-    const {
-      promisesById,
-      valuesById,
-    } = listener.captureOutputs(
-      lid,
-      { [instance.id]: instance },
-      { options },
-      this.listenerJoins
-    )
-
-    this.joins = {
-      ...this.joins,
-      ...valuesById,
-    }
-
-    for (const id in promisesById) {
-      const promise = promisesById[id]
-
-      promises.push(
-        promise.then((join: ListenerJoins): void => {
-          this.joins = {
-            ...this.joins,
-            [id]: join,
-          }
-        })
-      )
-    }
-
-    if (promises.length) {
-      return Promise.all(promises)
-    }
   }
 
   private waitForPromises(
