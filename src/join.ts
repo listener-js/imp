@@ -5,16 +5,6 @@ import {
 
 import { ListenerJoins, ListenerJoinEvent } from "./types"
 
-declare module "@listener-js/listener" {
-  interface Listener {
-    join(
-      lid: string[],
-      instanceId: string,
-      ...joins: ListenerJoins
-    ): void | Promise<void>
-  }
-}
-
 export class Join {
   public id: string
   public joins: Record<string, ListenerJoins> = {}
@@ -94,8 +84,6 @@ export class Join {
   ): void {
     const { existing, listener } = event
 
-    listener["join"] = this.join.bind(this)
-
     for (const instanceId of existing) {
       this.listenerBeforeLoadedAny(lid, {
         ...event,
@@ -108,6 +96,8 @@ export class Join {
     lid: string[],
     { instance, listener }: ListenerEvent
   ): void {
+    instance.join = this.join.bind(this)
+
     listener.bind(
       lid,
       [`${listener.id}.listenerLoaded`, "**"],

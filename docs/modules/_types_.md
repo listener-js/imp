@@ -10,10 +10,31 @@
 
 ### Type aliases
 
+* [ListenerJoin](_types_.md#listenerjoin)
 * [ListenerJoins](_types_.md#listenerjoins)
 * [ListenerJoinsOptions](_types_.md#listenerjoinsoptions)
 
 ## Type aliases
+
+###  ListenerJoin
+
+Ƭ **ListenerJoin**: *function*
+
+Defined in types.ts:14
+
+#### Type declaration:
+
+▸ (`lid`: string[], `instanceId`: string, ...`joins`: [ListenerJoins](_types_.md#listenerjoins)): *void*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`lid` | string[] |
+`instanceId` | string |
+`...joins` | [ListenerJoins](_types_.md#listenerjoins) |
+
+___
 
 ###  ListenerJoins
 

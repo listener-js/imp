@@ -10,3 +10,9 @@ export type ListenerJoins = [
 export interface ListenerJoinEvent extends ListenerEvent {
   joinInstance: any
 }
+
+export type ListenerJoin = (
+  lid: string[],
+  instanceId: string,
+  ...joins: ListenerJoins
+) => void
