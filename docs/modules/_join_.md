@@ -7,3 +7,7 @@
 ### Classes
 
 * [Join](../classes/_join_.join.md)
+
+### Interfaces
+
+* [JoinInfo](../interfaces/_join_.joininfo.md)

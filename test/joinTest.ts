@@ -4,6 +4,7 @@ import join, {
   ListenerJoin,
 } from "../"
 import {
+  instance,
   load,
   reset,
   ListenerEvent,
@@ -55,13 +56,15 @@ test("instance listener function", async (): Promise<
     ): void {
       expect(lid).toEqual([
         "test2.listenerJoined",
-        "join.listenerJoined",
+        "join.callListenerJoined",
         "test2",
-        "join.listenersJoined",
+        "join.bindListenerJoined",
         "listener.listenerLoaded",
         "test",
-        "listener.listenersLoaded",
+        "listener.callListenerLoaded",
+        "test",
         "listener.load",
+        "c",
       ])
       expect(instance.id).toBe("test2")
       expect(instance).toBe(test2)
