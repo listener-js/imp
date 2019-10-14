@@ -113,7 +113,7 @@ ___
 
 ▸ **buildPromise**(`lid`: string[], `__namedParameters`: object): *void | Promise‹any›*
 
-Defined in join.ts:79
+Defined in join.ts:74
 
 **Parameters:**
 
@@ -135,7 +135,7 @@ ___
 
 ▸ **callListenerJoined**(`lid`: string[], `event`: ListenerEvent): *void | Promise‹void›*
 
-Defined in join.ts:104
+Defined in join.ts:99
 
 **Parameters:**
 
@@ -152,7 +152,7 @@ ___
 
 ▸ **eachJoin**(`id`: string, `listener`: Listener, `fn`: function): *void*
 
-Defined in join.ts:120
+Defined in join.ts:115
 
 **Parameters:**
 
@@ -196,7 +196,7 @@ ___
 
 ▸ **listenerBeforeLoaded**(`lid`: string[], `event`: ListenerEvent): *void*
 
-Defined in join.ts:144
+Defined in join.ts:139
 
 **Parameters:**
 
@@ -213,7 +213,7 @@ ___
 
 ▸ **listenerBeforeLoadedAny**(`lid`: string[], `__namedParameters`: object): *void*
 
-Defined in join.ts:183
+Defined in join.ts:178
 
 **Parameters:**
 
@@ -234,7 +234,7 @@ ___
 
 ▸ **listenerJoined**(`lid`: string[], `event`: [ListenerJoinEvent](../interfaces/_types_.listenerjoinevent.md)): *void | Promise‹any›*
 
-Defined in join.ts:216
+Defined in join.ts:196
 
 **Parameters:**
 
@@ -251,7 +251,7 @@ ___
 
 ▸ **listenerJoins**(`lid`: string[], `event`: ListenerEvent): *void | Promise‹any›*
 
-Defined in join.ts:223
+Defined in join.ts:203
 
 **Parameters:**
 
@@ -268,7 +268,7 @@ ___
 
 ▸ **listenerReset**(`lid`: string[], `listener`: Listener): *void*
 
-Defined in join.ts:230
+Defined in join.ts:210
 
 **Parameters:**
 
@@ -285,7 +285,7 @@ ___
 
 ▸ **listenersJoined**(`lid`: string[], `__namedParameters`: object): *void | Promise‹any›*
 
-Defined in join.ts:209
+Defined in join.ts:189
 
 **Parameters:**
 
@@ -307,7 +307,7 @@ ___
 
 ▸ **parseId**(`id`: string, `listener`: Listener): *[string, string]*
 
-Defined in join.ts:240
+Defined in join.ts:220
 
 **Parameters:**
 
@@ -324,7 +324,7 @@ ___
 
 ▸ **promise**(`instanceId`: string): *Promise‹any›*
 
-Defined in join.ts:248
+Defined in join.ts:228
 
 **Parameters:**
 
@@ -340,7 +340,7 @@ ___
 
 ▸ **waitForPromises**(`lid`: string[], `__namedParameters`: object): *void | Promise‹any›*
 
-Defined in join.ts:256
+Defined in join.ts:236
 
 **Parameters:**
 

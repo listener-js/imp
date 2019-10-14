@@ -60,12 +60,7 @@ export class Join {
       if (joinInstance && joinInstance.listenerJoined) {
         listener.bind(
           lid,
-          [
-            `${this.id}.bindListenerJoined`,
-            `${listener.id}.listenerLoaded`,
-            id,
-            "**",
-          ],
+          [`${listener.id}.listenerAfterLoaded`, id, "**"],
           [
             `${this.id}.callListenerJoined`,
             joinInstance.id,
@@ -189,21 +184,6 @@ export class Join {
     }
 
     instance.join = this.join.bind(this)
-
-    if (instance !== this && instance.listenerJoined) {
-      listener.bind(
-        lid,
-        [
-          `${listener.id}.listenerAfterLoaded`,
-          instance.id,
-          "**",
-        ],
-        [
-          `${this.id}.listenerJoined`,
-          { append: true, once: true },
-        ]
-      )
-    }
   }
 
   private listenersJoined(
