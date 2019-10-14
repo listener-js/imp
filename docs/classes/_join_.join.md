@@ -213,7 +213,7 @@ ___
 
 ▸ **listenerBeforeLoadedAny**(`lid`: string[], `__namedParameters`: object): *void*
 
-Defined in join.ts:178
+Defined in join.ts:166
 
 **Parameters:**
 
@@ -234,7 +234,7 @@ ___
 
 ▸ **listenerJoined**(`lid`: string[], `event`: [ListenerJoinEvent](../interfaces/_types_.listenerjoinevent.md)): *void | Promise‹any›*
 
-Defined in join.ts:196
+Defined in join.ts:184
 
 **Parameters:**
 
@@ -251,7 +251,7 @@ ___
 
 ▸ **listenerJoins**(`lid`: string[], `event`: ListenerEvent): *void | Promise‹any›*
 
-Defined in join.ts:203
+Defined in join.ts:191
 
 **Parameters:**
 
@@ -268,7 +268,7 @@ ___
 
 ▸ **listenerReset**(`lid`: string[], `listener`: Listener): *void*
 
-Defined in join.ts:210
+Defined in join.ts:198
 
 **Parameters:**
 
@@ -285,7 +285,7 @@ ___
 
 ▸ **listenersJoined**(`lid`: string[], `__namedParameters`: object): *void | Promise‹any›*
 
-Defined in join.ts:189
+Defined in join.ts:177
 
 **Parameters:**
 
@@ -307,7 +307,7 @@ ___
 
 ▸ **parseId**(`id`: string, `listener`: Listener): *[string, string]*
 
-Defined in join.ts:220
+Defined in join.ts:208
 
 **Parameters:**
 
@@ -324,7 +324,7 @@ ___
 
 ▸ **promise**(`instanceId`: string): *Promise‹any›*
 
-Defined in join.ts:228
+Defined in join.ts:216
 
 **Parameters:**
 
@@ -340,7 +340,7 @@ ___
 
 ▸ **waitForPromises**(`lid`: string[], `__namedParameters`: object): *void | Promise‹any›*
 
-Defined in join.ts:236
+Defined in join.ts:224
 
 **Parameters:**
 

@@ -156,22 +156,10 @@ export class Join {
     listener.bind(
       lid,
       [`${listener.id}.listenerLoaded`, "**"],
-      [
-        `${this.id}.buildPromise`,
-        { append: 100, once: true },
-      ],
-      [
-        `${this.id}.waitForPromises`,
-        { append: 100.1, once: true },
-      ],
-      [
-        `${this.id}.applyJoins`,
-        { append: 100.2, once: true },
-      ],
-      [
-        `${this.id}.bindListenerJoined`,
-        { append: 100.3, once: true },
-      ]
+      [`${this.id}.buildPromise`, { append: 100 }],
+      [`${this.id}.waitForPromises`, { append: 100.1 }],
+      [`${this.id}.applyJoins`, { append: 100.2 }],
+      [`${this.id}.bindListenerJoined`, { append: 100.3 }]
     )
   }
 
