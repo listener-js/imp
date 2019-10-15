@@ -1,11 +1,10 @@
 import { ListenerEvent } from "@listener-js/listener"
 
-export type ListenerJoinsOptions = {}
+export type ListenerJoinOptions = {}
 
-export type ListenerJoins = [
-  string[],
-  ListenerJoinsOptions?
-][]
+export type ListenerJoins =
+  | string[]
+  | (string | ListenerJoinOptions)[][]
 
 export interface ListenerJoinEvent extends ListenerEvent {
   joinInstance: any

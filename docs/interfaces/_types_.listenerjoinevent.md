@@ -55,7 +55,7 @@ ___
 
 • **joinInstance**: *any*
 
-Defined in types.ts:11
+Defined in types.ts:10
 
 ___
 

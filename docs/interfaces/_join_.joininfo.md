@@ -20,7 +20,7 @@
 
 • **joinFnId**: *string*
 
-Defined in join.ts:11
+Defined in join.ts:15
 
 ___
 
@@ -28,7 +28,7 @@ ___
 
 • **joinInstance**: *any*
 
-Defined in join.ts:9
+Defined in join.ts:13
 
 ___
 
@@ -36,4 +36,4 @@ ___
 
 • **joinInstanceId**: *string*
 
-Defined in join.ts:10
+Defined in join.ts:14

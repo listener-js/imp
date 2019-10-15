@@ -11,8 +11,8 @@
 ### Type aliases
 
 * [ListenerJoin](_types_.md#listenerjoin)
+* [ListenerJoinOptions](_types_.md#listenerjoinoptions)
 * [ListenerJoins](_types_.md#listenerjoins)
-* [ListenerJoinsOptions](_types_.md#listenerjoinsoptions)
 
 ## Type aliases
 
@@ -20,7 +20,7 @@
 
 Ƭ **ListenerJoin**: *function*
 
-Defined in types.ts:14
+Defined in types.ts:13
 
 #### Type declaration:
 
@@ -36,18 +36,18 @@ Name | Type |
 
 ___
 
-###  ListenerJoins
+###  ListenerJoinOptions
 
-Ƭ **ListenerJoins**: *[string[], object][]*
-
-Defined in types.ts:5
-
-___
-
-###  ListenerJoinsOptions
-
-Ƭ **ListenerJoinsOptions**: *object*
+Ƭ **ListenerJoinOptions**: *object*
 
 Defined in types.ts:3
 
 #### Type declaration:
+
+___
+
+###  ListenerJoins
+
+Ƭ **ListenerJoins**: *string[] | string | object[][]*
+
+Defined in types.ts:5

@@ -3,7 +3,11 @@ import {
   ListenerEvent,
 } from "@listener-js/listener"
 
-import { ListenerJoins, ListenerJoinEvent } from "./types"
+import {
+  ListenerJoins,
+  ListenerJoinEvent,
+  ListenerJoinOptions,
+} from "./types"
 
 export interface JoinInfo {
   joinInstance: any
@@ -13,7 +17,8 @@ export interface JoinInfo {
 
 export class Join {
   public id: string
-  public joins: Record<string, ListenerJoins> = {}
+  public joins: Record<string, string[]> = {}
+  public options: Record<string, ListenerJoinOptions[]> = {}
   public promises: Record<string, Promise<any>> = {}
 
   private resolvers: Record<string, Function> = {}
@@ -24,7 +29,30 @@ export class Join {
     ...joins: ListenerJoins
   ): void {
     const j = this.joins[instanceId]
-    this.joins[instanceId] = j ? j.concat(joins) : joins
+    const o = this.options[instanceId]
+
+    for (let join of joins) {
+      let joinId: string
+      let options: ListenerJoinOptions
+
+      if (typeof join === "string") {
+        joinId = join
+      } else {
+        const last = join[join.length - 1]
+        const hasOption = typeof last !== "string"
+        if (hasOption) {
+          options = last as ListenerJoinOptions
+          join = join.slice(0, -1)
+        }
+        ;[joinId] = join as string[]
+      }
+
+      this.joins[instanceId] = j ? [...j, joinId] : [joinId]
+
+      this.options[instanceId] = o
+        ? [...o, options]
+        : [options]
+    }
   }
 
   private applyJoins(
@@ -121,18 +149,16 @@ export class Join {
       return
     }
 
-    for (const [joinIds] of this.joins[id]) {
-      for (const joinId of joinIds) {
-        const [joinInstanceId, joinFnId] = this.parseId(
-          joinId,
-          listener
-        )
+    for (const joinId of this.joins[id]) {
+      const [joinInstanceId, joinFnId] = this.parseId(
+        joinId,
+        listener
+      )
 
-        const joinInstance =
-          listener.instances[joinInstanceId]
+      const joinInstance =
+        listener.instances[joinInstanceId]
 
-        fn({ joinFnId, joinInstance, joinInstanceId })
-      }
+      fn({ joinFnId, joinInstance, joinInstanceId })
     }
   }
 

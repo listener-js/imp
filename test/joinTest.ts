@@ -1,14 +1,11 @@
-import join, {
-  ListenerJoins,
-  ListenerJoinEvent,
-  ListenerJoin,
-} from "../"
+import join, { ListenerJoinEvent, ListenerJoin } from "../"
+
 import {
-  instance,
   load,
   reset,
   ListenerEvent,
 } from "@listener-js/listener"
+
 import log from "@listener-js/log"
 
 function delay(t: number, v?: any): Promise<any> {
@@ -41,7 +38,7 @@ test("instance listener function", async (): Promise<
       lid: string[],
       { instance, listener }: ListenerEvent
     ): void {
-      this.join(lid, instance.id, [["test2.fn"]])
+      this.join(lid, instance.id, "test2.fn")
     }
   }
 
@@ -92,7 +89,7 @@ test("instance listener", (): void => {
       lid: string[],
       { instance, listener }: ListenerEvent
     ): void {
-      this.join(lid, instance.id, [["test2"]])
+      this.join(lid, instance.id, "test2")
     }
 
     public test2: Test2
@@ -159,7 +156,7 @@ test("async listener wait for dependency", (): Promise<
       lid: string[],
       { instance, listener }: ListenerEvent
     ): void {
-      this.join(lid, instance.id, [["test2.fn"]])
+      this.join(lid, instance.id, "test2.fn")
     }
   }
 
@@ -201,7 +198,7 @@ test("async join callback", async (): Promise<any> => {
       lid: string[],
       { instance, listener }: ListenerEvent
     ): void {
-      this.join(lid, instance.id, [["test2.fn"]])
+      this.join(lid, instance.id, "test2.fn")
     }
   }
 
