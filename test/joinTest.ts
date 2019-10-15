@@ -173,7 +173,7 @@ test("async listener wait for dependency", (): Promise<
     test: asyncTest,
     // eslint-disable-next-line sort-keys
     join,
-  }).then((): void => {
+  }).then(({ test }): void => {
     test.fn(["hi"])
   })
 
