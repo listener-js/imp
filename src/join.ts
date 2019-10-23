@@ -112,6 +112,10 @@ export class Join {
           | Promise<Record<string, any>> => {
           this.promises[id] = undefined
 
+          if (instance.default) {
+            instance = instance.default
+          }
+
           return listener.load(
             lid,
             { [id]: instance },
