@@ -1,18 +1,23 @@
 #!/usr/bin/env bash
 
-BUMP=${1:-minor} 
+BUMP=${1:-minor}
+REPLACE="@listener-js\/listener"
+REPLACE_WITH="..\/node_modules\/@listener-js\/listener\/dist\/index"
 VERSION="$(npx -c 'echo "$npm_package_version"')"
 VERSION_BUMP="$(npx semver -i $BUMP $VERSION)"
-HUSKY_SKIP_HOOKS=1
+MJS="./cdn/join-$VERSION_BUMP.mjs"
 
 cd "$(dirname "$0")/../"
 
 rm -rf cdn dist
 mkdir cdn dist
 
-MJS="./cdn/join-$VERSION_BUMP.mjs"
-
+sed -i '' "s/$REPLACE/$REPLACE_WITH/g" ./src/join.ts
+sed -i '' "s/$REPLACE/$REPLACE_WITH/g" ./src/types.ts
 npx tsc -m es6
+sed -i '' "s/$REPLACE_WITH/$REPLACE/g" ./src/join.ts
+sed -i '' "s/$REPLACE_WITH/$REPLACE/g" ./src/types.ts
+
 npx rollup ./dist/join.js --context this --file $MJS -f esm
 npx terser $MJS --compress -m reserved=['lid'] -o $MJS
 

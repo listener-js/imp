@@ -1,4 +1,4 @@
-import { ListenerEvent } from "../node_modules/@listener-js/listener/dist/index"
+import { ListenerEvent } from "@listener-js/listener"
 
 export type ListenerJoinOptions = {}
 
