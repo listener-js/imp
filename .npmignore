@@ -1,4 +1,5 @@
 .*
+!cdn
 jest.config.js
 tsconfig.json
 docs
