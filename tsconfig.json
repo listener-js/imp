@@ -4,6 +4,7 @@
     "allowUnusedLabels": true,
     "alwaysStrict": true,
     "declaration": true,
+    "esModuleInterop": true,
     "module": "commonjs",
     "outDir": "dist",
     "sourceMap": true

@@ -1,7 +1,7 @@
 import {
   Listener,
   ListenerEvent,
-} from "@listener-js/listener"
+} from "../node_modules/@listener-js/listener/dist/index"
 
 import {
   ListenerJoins,

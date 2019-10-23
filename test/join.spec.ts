@@ -1,4 +1,9 @@
-import join, { ListenerJoinEvent, ListenerJoin } from "../"
+import join, {
+  ListenerJoinEvent,
+  ListenerJoin,
+} from "../src/join"
+
+import expect from "expect"
 
 import {
   load,
@@ -19,9 +24,7 @@ beforeEach((): void => {
   load(["beforeEach"], { log })
 })
 
-test("instance listener function", async (): Promise<
-  any
-> => {
+it("instance listener function", async (): Promise<any> => {
   expect.assertions(6)
 
   let test: Test = null,
@@ -79,7 +82,7 @@ test("instance listener function", async (): Promise<
   test.fn(["hi"])
 })
 
-test("instance listener", (): void => {
+it("instance listener", (): void => {
   expect.assertions(3)
 
   class Test {
@@ -119,7 +122,7 @@ test("instance listener", (): void => {
   test.test2.fn(["hi"])
 })
 
-test("async listener instance", async (): Promise<
+it("async listener instance", async (): Promise<
   Record<string, any>
 > => {
   expect.assertions(1)
@@ -140,7 +143,7 @@ test("async listener instance", async (): Promise<
   )
 })
 
-test("async listener wait for dependency", (): Promise<
+it("async listener wait for dependency", (): Promise<
   any
 > => {
   expect.assertions(1)
@@ -182,7 +185,7 @@ test("async listener wait for dependency", (): Promise<
   return promise
 })
 
-test("async join callback", async (): Promise<any> => {
+it("async join callback", async (): Promise<any> => {
   expect.assertions(4)
 
   let test: Test = null

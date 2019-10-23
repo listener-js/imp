@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+BUMP=${1:-minor} 
+VERSION="$(npx -c 'echo "$npm_package_version"')"
+VERSION_BUMP="$(npx semver -i $BUMP $VERSION)"
+HUSKY_SKIP_HOOKS=1
+
+cd "$(dirname "$0")/../"
+
+rm -rf cdn dist
+mkdir cdn dist
+
+MJS="./cdn/join-$VERSION_BUMP.mjs"
+
+npx tsc -m es6
+npx rollup ./dist/join.js --context this --file $MJS -f esm
+npx terser $MJS --compress -m reserved=['lid'] -o $MJS
+
+rm -rf dist
+npx tsc
+
+npx release-it --ci -i $BUMP
