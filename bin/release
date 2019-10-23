@@ -24,4 +24,6 @@ npx terser $MJS --compress -m reserved=['lid'] -o $MJS
 rm -rf dist
 npx tsc
 
+git status
+
 npx release-it --ci -i $BUMP
