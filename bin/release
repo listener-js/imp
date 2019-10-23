@@ -19,7 +19,7 @@ sed -i '' "s/$REPLACE_WITH/$REPLACE/g" ./src/join.ts
 sed -i '' "s/$REPLACE_WITH/$REPLACE/g" ./src/types.ts
 
 npx rollup ./dist/join.js --context this --file $MJS -f esm
-npx terser $MJS --compress -m reserved=['lid'] -o $MJS
+npx terser $MJS --compress -m reserved=['lid','lid_'] -o $MJS
 
 rm -rf dist
 npx tsc
