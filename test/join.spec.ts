@@ -1,7 +1,4 @@
-import join, {
-  ListenerJoinEvent,
-  ListenerJoin,
-} from "../src"
+import join, { ListenerJoinEvent } from "../src"
 
 import expect from "expect"
 
@@ -31,7 +28,7 @@ it("instance listener function", async (): Promise<any> => {
     test2: Test2 = null
 
   class Test {
-    join: ListenerJoin
+    join: typeof join.join
 
     fn(lid: string[]): void {
       expect(0).toBe(1)
@@ -86,7 +83,7 @@ it("instance listener", (): void => {
   expect.assertions(3)
 
   class Test {
-    join: ListenerJoin
+    join: typeof join.join
 
     private listenerLoaded(
       lid: string[],
@@ -149,7 +146,7 @@ it("async listener wait for dependency", (): Promise<
   expect.assertions(1)
 
   class Test {
-    join: ListenerJoin
+    join: typeof join.join
 
     fn(lid: string[]): void {
       expect(0).toBe(1)
@@ -191,7 +188,7 @@ it("async join callback", async (): Promise<any> => {
   let test: Test = null
 
   class Test {
-    join: ListenerJoin
+    join: typeof join.join
 
     fn(lid: string[]): void {
       expect(0).toBe(1)

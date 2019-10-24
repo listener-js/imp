@@ -3,13 +3,17 @@ import {
   ListenerEvent,
 } from "@listener-js/listener"
 
-import {
-  ListenerJoins,
-  ListenerJoinEvent,
-  ListenerJoinOptions,
-} from "./types"
+export interface ListenerJoinEvent extends ListenerEvent {
+  joinInstance: any
+}
 
-export interface JoinInfo {
+type ListenerJoinOptions = {}
+
+type ListenerJoins =
+  | string[]
+  | (string | ListenerJoinOptions)[][]
+
+interface JoinInfo {
   joinInstance: any
   joinInstanceId: string
   joinFnId: string
@@ -274,4 +278,3 @@ export class Join {
 }
 
 export default new Join()
-export * from "./types"
