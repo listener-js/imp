@@ -1,13 +1,15 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "allowUnusedLabels": true,
-    "alwaysStrict": true,
-    "declaration": true,
-    "esModuleInterop": true,
     "module": "commonjs",
-    "outDir": "dist",
-    "sourceMap": true
+    "outDir": "dist/cjs",
+    "rootDir": "./src"
   },
-  "include": ["src/**/*.ts"]
+  "extends": "./tsconfig-base.json",
+  "include": ["src/**/*.ts"],
+  "references": [
+    {
+      "path": "./src"
+    }
+  ]
 }

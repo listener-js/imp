@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "allowUnusedLabels": true,
+    "alwaysStrict": true,
+    "baseUrl": ".",
+    "declaration": true,
+    "esModuleInterop": true,
+    "paths": {
+      "@listener-js/listener": [
+        "node_modules/@listener-js/listener/dist/index"
+      ]
+    },
+    "sourceMap": true
+  }
+}

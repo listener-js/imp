@@ -1,7 +1,7 @@
 .*
-!cdn
 jest.config.js
 tsconfig.json
+tsconfig.tsbuildinfo
 docs
 media
 test

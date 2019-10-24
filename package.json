@@ -7,7 +7,7 @@
     "listener"
   ],
   "author": "Join <join@join.tools>",
-  "main": "dist/join.js",
+  "main": "dist/cjs/index.js",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/listener-js/join.git"
@@ -15,12 +15,7 @@
   "license": "MIT",
   "homepage": "https://github.com/listener-js/join#readme",
   "scripts": {
-    "build": "tsc",
-    "docs": "typedoc --out docs --media media --theme markdown src/*.ts",
-    "fix": "npm run lint -- --fix",
-    "lint": "eslint --ignore-path .gitignore --ext=js .",
-    "prepublish": "rm -rf dist; npm run build",
-    "pretty": "prettier --write **/*.css **/*.json **/*.md",
+    "build": "rm -rf dist; tsc -b",
     "release": "./bin/release",
     "test": "mocha"
   },
@@ -45,11 +40,6 @@
     "terser": "4.3.9",
     "ts-node": "8.4.1",
     "typescript": "3.6.4"
-  },
-  "prettier": {
-    "printWidth": 60,
-    "semi": false,
-    "trailingComma": "es5"
   },
   "husky": {
     "hooks": {

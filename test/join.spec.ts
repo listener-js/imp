@@ -1,7 +1,7 @@
 import join, {
   ListenerJoinEvent,
   ListenerJoin,
-} from "../src/join"
+} from "../src"
 
 import expect from "expect"
 
