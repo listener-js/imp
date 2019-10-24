@@ -7,7 +7,7 @@
     "esModuleInterop": true,
     "paths": {
       "@listener-js/listener": [
-        "node_modules/@listener-js/listener/dist/index"
+        "node_modules/@listener-js/listener/dist/cjs/index"
       ]
     },
     "sourceMap": true

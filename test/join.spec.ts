@@ -119,7 +119,7 @@ it("instance listener", (): void => {
   test.test2.fn(["hi"])
 })
 
-it("async listener instance", async (): Promise<
+it.only("async listener instance", async (): Promise<
   Record<string, any>
 > => {
   expect.assertions(1)
