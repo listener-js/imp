@@ -20,13 +20,13 @@
     "test": "mocha"
   },
   "devDependencies": {
-    "@listener-js/listener": "3.17.0",
-    "@listener-js/log": "1.42.0",
+    "@listener-js/listener": "3.18.0",
+    "@listener-js/log": "1.43.0",
     "@types/mocha": "5.2.7",
     "@types/node": "12.11.7",
     "@typescript-eslint/eslint-plugin": "2.5.0",
     "@typescript-eslint/parser": "2.5.0",
-    "eslint": "6.5.1",
+    "eslint": "6.6.0",
     "eslint-config-prettier": "6.4.0",
     "eslint-plugin-prettier": "3.1.1",
     "expect": "24.9.0",
