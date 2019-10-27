@@ -119,7 +119,37 @@ it("instance listener", (): void => {
   test.test2.fn(["hi"])
 })
 
-it.only("async listener instance", async (): Promise<
+it("multiple instance listeners", (): void => {
+  expect.assertions(3)
+
+  class Test {
+    join: typeof join.join
+    test2: Test2
+    test3: Test3
+
+    private listenerLoaded(
+      lid: string[],
+      { instance, listener }: ListenerEvent
+    ): void {
+      this.join(lid, instance.id, "test2", "test3")
+    }
+  }
+
+  class Test2 {}
+  class Test3 {}
+
+  const test = new Test()
+  const test2 = new Test2()
+  const test3 = new Test3()
+
+  // eslint-disable-next-line sort-keys
+  load([], { test, test2, test3, join })
+
+  expect(test.test2).toBe(test2)
+  expect(test.test3).toBe(test3)
+})
+
+it("async listener instance", async (): Promise<
   Record<string, any>
 > => {
   expect.assertions(1)

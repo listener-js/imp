@@ -32,10 +32,10 @@ export class Join {
     instanceId: string,
     ...joins: ListenerJoins
   ): void {
-    const j = this.joins[instanceId]
-    const o = this.options[instanceId]
-
     for (let join of joins) {
+      const j = this.joins[instanceId]
+      const o = this.options[instanceId]
+
       let joinId: string
       let options: ListenerJoinOptions
 
