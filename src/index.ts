@@ -1,4 +1,4 @@
-import {
+import instance, {
   Listener,
   ListenerEvent,
 } from "@listener-js/listener"
@@ -61,8 +61,12 @@ export class Join {
 
   private applyJoins(
     lid: string[],
-    { listener, instance: { id } }: ListenerEvent
+    { listener, instance: { id, then } }: ListenerEvent
   ): void | Promise<any> {
+    if (then) {
+      return
+    }
+
     this.eachJoin(
       id,
       listener,
@@ -86,8 +90,12 @@ export class Join {
 
   private bindListenerJoined(
     lid: string[],
-    { instance: { id }, listener }: ListenerEvent
+    { instance: { id, then }, listener }: ListenerEvent
   ): void {
+    if (then) {
+      return
+    }
+
     this.eachJoin(id, listener, ({ joinInstance }) => {
       if (joinInstance && joinInstance.listenerJoined) {
         listener.bind(

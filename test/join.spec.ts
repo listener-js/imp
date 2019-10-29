@@ -252,3 +252,38 @@ it("async join callback", async (): Promise<any> => {
   // eslint-disable-next-line sort-keys
   return load([], { test, test2, join })
 })
+
+it("async listener dependency with join callback", (): Promise<
+  any
+> => {
+  let calls = 0
+
+  class Test {
+    join: typeof join.join
+
+    listenerLoaded(
+      lid: string[],
+      { instance, listener }: ListenerEvent
+    ): void {
+      this.join(lid, instance.id, "test2")
+    }
+  }
+
+  const test2 = {
+    listenerJoined(lid: string[]): void {
+      calls += 1
+    },
+  }
+
+  const test = new Test()
+  const asyncTest = delay(1, test)
+
+  return load([], {
+    test: asyncTest,
+    test2,
+    // eslint-disable-next-line sort-keys
+    join,
+  }).then(() => {
+    expect(calls).toBe(1)
+  })
+})
