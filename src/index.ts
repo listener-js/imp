@@ -61,12 +61,8 @@ export class Join {
 
   private applyJoins(
     lid: string[],
-    { listener, instance: { id, then } }: ListenerEvent
+    { listener, instance: { id } }: ListenerEvent
   ): void | Promise<any> {
-    if (then) {
-      return
-    }
-
     this.eachJoin(
       id,
       listener,
@@ -90,12 +86,8 @@ export class Join {
 
   private bindListenerJoined(
     lid: string[],
-    { instance: { id, then }, listener }: ListenerEvent
+    { instance: { id }, listener }: ListenerEvent
   ): void {
-    if (then) {
-      return
-    }
-
     this.eachJoin(id, listener, ({ joinInstance }) => {
       if (joinInstance && joinInstance.listenerJoined) {
         listener.bind(
@@ -116,28 +108,11 @@ export class Join {
     { listener, instance, options }: ListenerEvent
   ): void | Promise<any> {
     const id = lid[2]
-    if (instance.then) {
-      this.promise(id)
-      instance
-        .then((instance):
-          | Record<string, any>
-          | Promise<Record<string, any>> => {
-          this.promises[id] = undefined
-
-          if (instance.default) {
-            instance = instance.default
-          }
-
-          return listener.load(
-            lid,
-            { [id]: instance },
-            { ...options, reload: undefined }
-          )
-        })
-        .then(() => {
-          this.resolvers[id]()
-        })
-    }
+    this.eachJoin(id, listener, ({ joinInstanceId }) => {
+      if (!listener.instances[joinInstanceId]) {
+        this.promise(joinInstanceId)
+      }
+    })
   }
 
   private callListenerJoined(
@@ -184,10 +159,6 @@ export class Join {
   ): void {
     const { existing, instance, listener } = event
 
-    if (instance.then) {
-      return
-    }
-
     for (const instanceId of existing) {
       this.listenerBeforeLoadedAny(lid, {
         ...event,
@@ -203,16 +174,18 @@ export class Join {
       [`${this.id}.applyJoins`, { append: 100.2 }],
       [`${this.id}.bindListenerJoined`, { append: 100.3 }]
     )
+
+    listener.bind(
+      lid,
+      [`${listener.id}.listenerAfterAllLoaded`, "**"],
+      [`${this.id}.resolvePromise`, { append: 100 }]
+    )
   }
 
   private listenerBeforeLoadedAny(
     lid: string[],
     { instance, listener }: ListenerEvent
   ): void {
-    if (instance.then) {
-      return
-    }
-
     instance.join = this.join.bind(this)
   }
 
@@ -261,6 +234,15 @@ export class Join {
       new Promise((resolve): void => {
         this.resolvers[instanceId] = resolve
       }))
+  }
+
+  private resolvePromise(
+    lid: string[],
+    { listener, instance, options }: ListenerEvent
+  ): void | Promise<any> {
+    if (this.resolvers[instance.id]) {
+      this.resolvers[instance.id]()
+    }
   }
 
   private waitForPromises(
