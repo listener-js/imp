@@ -1,6 +1,6 @@
 {
   "name": "@listener-js/join",
-  "version": "1.20.0",
+  "version": "1.21.0",
   "description": "Join listener libraries together 🤝",
   "keywords": [
     "join",
