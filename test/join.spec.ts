@@ -170,7 +170,80 @@ it("async listener instance", async (): Promise<
   )
 })
 
-it("async listener wait for dependency", (): Promise<
+it("async listener dependencies", (): Promise<any> => {
+  expect.assertions(1)
+
+  class Test {
+    join: typeof join.join
+    // eslint-disable-next-line
+    test2: typeof test2
+    // eslint-disable-next-line
+    test3: typeof test3
+
+    listenerLoaded(
+      lid: string[],
+      { instance }: ListenerEvent
+    ): void {
+      this.join(lid, instance.id, "test2", "test3")
+    }
+  }
+
+  const test = new Test()
+
+  class Test2 {
+    join: typeof join.join
+    test: typeof test
+    // eslint-disable-next-line
+    test3: typeof test3
+
+    listenerLoaded(
+      lid: string[],
+      { instance }: ListenerEvent
+    ): void {
+      this.join(lid, instance.id, "test", "test3")
+    }
+  }
+
+  const test2 = new Test2()
+
+  class Test3 {
+    join: typeof join.join
+    test: typeof test
+    test2: typeof test2
+
+    listenerLoaded(
+      lid: string[],
+      { instance }: ListenerEvent
+    ): void {
+      this.join(lid, instance.id, "test", "test2")
+    }
+  }
+
+  const test3 = new Test3()
+
+  const asyncTest = delay(1, test)
+  const asyncTest2 = delay(1, test2)
+  const asyncTest3 = delay(1, test3)
+
+  return load([], {
+    test: asyncTest,
+    test2: asyncTest2,
+    test3: asyncTest3,
+    // eslint-disable-next-line sort-keys
+    join,
+  }).then(({ test, test2, test3 }): void => {
+    expect(test.test2).toBe(test2)
+    expect(test.test3).toBe(test3)
+
+    expect(test2.test).toBe(test)
+    expect(test2.test3).toBe(test3)
+
+    expect(test3.test).toBe(test)
+    expect(test3.test2).toBe(test2)
+  })
+})
+
+it("async listener dependency across distinct loads", (): Promise<
   any
 > => {
   expect.assertions(1)
