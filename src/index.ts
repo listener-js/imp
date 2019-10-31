@@ -88,18 +88,16 @@ export class Join {
     lid: string[],
     { instance: { id }, listener }: ListenerEvent
   ): void {
-    this.eachJoin(id, listener, ({ joinInstance }) => {
-      if (joinInstance && joinInstance.listenerJoined) {
-        listener.bind(
-          lid,
-          [`${listener.id}.listenerAfterLoaded`, id, "**"],
-          [
-            `${this.id}.callListenerJoined`,
-            joinInstance.id,
-            { once: true },
-          ]
-        )
-      }
+    this.eachJoin(id, listener, ({ joinInstanceId }) => {
+      listener.bind(
+        lid,
+        [`${listener.id}.listenerAfterLoaded`, id, "**"],
+        [
+          `${this.id}.callListenerJoined`,
+          joinInstanceId,
+          { once: true },
+        ]
+      )
     })
   }
 
@@ -121,6 +119,11 @@ export class Join {
   ): void | Promise<void> {
     const id = lid[1]
     const instance = event.listener.instances[id]
+
+    if (!instance.listenerJoined) {
+      return
+    }
+
     const joinInstance = event.instance
 
     const joinEvent: ListenerJoinEvent = {
