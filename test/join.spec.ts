@@ -285,8 +285,7 @@ it("async listener dependency across distinct loads", (): Promise<
 })
 
 it("async join callback", async (): Promise<any> => {
-  expect.assertions(4)
-
+  let calls = 0
   let test: Test = null
 
   class Test {
@@ -315,6 +314,7 @@ it("async join callback", async (): Promise<any> => {
         expect(instance).toEqual(test2)
         expect(joinInstance.id).toBe("test")
         expect(joinInstance).toEqual(test)
+        calls += 1
       })
     },
   }
@@ -322,7 +322,9 @@ it("async join callback", async (): Promise<any> => {
   test = new Test()
 
   // eslint-disable-next-line sort-keys
-  return load([], { test, test2, join })
+  return load([], { test, test2, join }).then(() => {
+    expect(calls).toBe(1)
+  })
 })
 
 it("async listener dependency with join callback", (): Promise<

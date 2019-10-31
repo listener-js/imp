@@ -94,9 +94,10 @@ export class Join {
   private callListenerJoined(
     lid: string[],
     event: ListenerEvent
-  ): void {
+  ): Promise<any> {
     const { instance, listener } = event
     const { id } = instance
+    const promises = []
 
     this.eachJoin(id, listener, ({ joinInstance }) => {
       if (!joinInstance.listenerJoined) {
@@ -111,8 +112,19 @@ export class Join {
         },
       }
 
-      return joinInstance.listenerJoined(lid, joinEvent)
+      const out = joinInstance.listenerJoined(
+        lid,
+        joinEvent
+      )
+
+      if (out && out.then) {
+        promises.push(out)
+      }
     })
+
+    if (promises.length) {
+      return Promise.all(promises)
+    }
   }
 
   private buildJoinPromises(
