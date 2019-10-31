@@ -54,10 +54,9 @@ it("instance listener function", async (): Promise<any> => {
       expect(lid).toEqual([
         "test2.listenerJoined",
         "join.callListenerJoined",
-        "test2",
-        "listener.listenerAfterLoaded",
+        "listener.listenerLoaded",
         "test",
-        "listener.callListenerAfterLoaded",
+        "listener.callListenerLoaded",
         "test",
         "listener.load",
         "c",
