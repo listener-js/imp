@@ -238,13 +238,15 @@ it("async listener dependencies", (): Promise<any> => {
   const asyncTest2 = delay(1, test2)
   const asyncTest3 = delay(1, test3)
 
-  return load([], {
+  const promise = load([], {
     test: asyncTest,
     test2: asyncTest2,
     test3: asyncTest3,
     // eslint-disable-next-line sort-keys
     join,
-  }).then(({ test, test2, test3 }): void => {
+  })
+
+  return promise.then(({ test, test2, test3 }): void => {
     expect(test.test2).toBe(test2)
     expect(test.test3).toBe(test3)
 
@@ -341,7 +343,7 @@ it("async join callback", async (): Promise<any> => {
   })
 })
 
-it("async listener dependency with join callback", (): Promise<
+it("async listener dependencies with callback", (): Promise<
   any
 > => {
   let calls = 0
@@ -365,10 +367,11 @@ it("async listener dependency with join callback", (): Promise<
 
   const test = new Test()
   const asyncTest = delay(1, test)
+  const asyncTest2 = delay(1, test2)
 
   return load([], {
     test: asyncTest,
-    test2,
+    test2: asyncTest2,
     // eslint-disable-next-line sort-keys
     join,
   }).then(() => {

@@ -41,10 +41,9 @@ export class Join {
       lid_,
       [`${this.id}.join`, id, "**"],
       [`${this.id}.buildJoinPromises`, { append: 0.1 }],
-      [`${this.id}.resolvePromise`, { append: 0.2 }],
-      [`${this.id}.waitForJoinPromises`, { append: 0.3 }],
-      [`${this.id}.applyJoins`, { append: 0.4 }],
-      [`${this.id}.callListenerJoined`, { append: 0.5 }]
+      [`${this.id}.waitForJoinPromises`, { append: 0.2 }],
+      [`${this.id}.applyJoins`, { append: 0.3 }],
+      [`${this.id}.callListenerJoined`, { append: 0.4 }]
     )
   }
 
@@ -190,7 +189,8 @@ export class Join {
     listener.bind(
       lid,
       [`${listener.id}.listenerLoaded`, "**"],
-      [`${this.id}.assignJoin`, { prepend: 100 }]
+      [`${this.id}.assignJoin`, { prepend: 100 }],
+      [`${this.id}.resolvePromise`, { prepend: true }]
     )
   }
 
