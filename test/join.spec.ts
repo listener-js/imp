@@ -1,6 +1,8 @@
 import join, { ListenerJoinEvent } from "../src"
 
-import expect from "expect"
+import expect, {
+  extractExpectedAssertionsErrors,
+} from "expect"
 
 import {
   load,
@@ -21,6 +23,15 @@ beforeEach((): void => {
   load(["beforeEach"], { log })
 })
 
+afterEach((): void => {
+  const [error] = extractExpectedAssertionsErrors()
+  if (error) {
+    throw new Error(
+      `expected ${error.expected} assertions, received ${error.actual}`
+    )
+  }
+})
+
 it("instance listener function", async (): Promise<any> => {
   expect.assertions(6)
 
@@ -36,9 +47,9 @@ it("instance listener function", async (): Promise<any> => {
 
     listenerLoaded(
       lid: string[],
-      { instance, listener }: ListenerEvent
+      event: ListenerEvent
     ): void {
-      this.join(lid, instance.id, "test2.fn")
+      this.join(lid, event, "test2.fn")
     }
   }
 
@@ -54,6 +65,9 @@ it("instance listener function", async (): Promise<any> => {
       expect(lid).toEqual([
         "test2.listenerJoined",
         "join.callListenerJoined",
+        "join.join",
+        "d",
+        "test.listenerLoaded",
         "listener.listenerLoaded",
         "test",
         "listener.callListenerLoaded",
@@ -86,9 +100,9 @@ it("instance listener", (): void => {
 
     private listenerLoaded(
       lid: string[],
-      { instance, listener }: ListenerEvent
+      event: ListenerEvent
     ): void {
-      this.join(lid, instance.id, "test2")
+      this.join(lid, event, "test2")
     }
 
     public test2: Test2
@@ -119,7 +133,7 @@ it("instance listener", (): void => {
 })
 
 it("multiple instance listeners", (): void => {
-  expect.assertions(3)
+  expect.assertions(2)
 
   class Test {
     join: typeof join.join
@@ -128,9 +142,9 @@ it("multiple instance listeners", (): void => {
 
     private listenerLoaded(
       lid: string[],
-      { instance, listener }: ListenerEvent
+      event: ListenerEvent
     ): void {
-      this.join(lid, instance.id, "test2", "test3")
+      this.join(lid, event, "test2", "test3")
     }
   }
 
@@ -170,7 +184,7 @@ it("async listener instance", async (): Promise<
 })
 
 it("async listener dependencies", (): Promise<any> => {
-  expect.assertions(1)
+  expect.assertions(6)
 
   class Test {
     join: typeof join.join
@@ -179,11 +193,11 @@ it("async listener dependencies", (): Promise<any> => {
     // eslint-disable-next-line
     test3: typeof test3
 
-    listenerLoaded(
+    async listenerLoaded(
       lid: string[],
-      { instance }: ListenerEvent
-    ): void {
-      this.join(lid, instance.id, "test2", "test3")
+      event: ListenerEvent
+    ): Promise<any> {
+      await this.join(lid, event, "test2", "test3")
     }
   }
 
@@ -195,11 +209,11 @@ it("async listener dependencies", (): Promise<any> => {
     // eslint-disable-next-line
     test3: typeof test3
 
-    listenerLoaded(
+    async listenerLoaded(
       lid: string[],
-      { instance }: ListenerEvent
-    ): void {
-      this.join(lid, instance.id, "test", "test3")
+      event: ListenerEvent
+    ): Promise<any> {
+      await this.join(lid, event, "test", "test3")
     }
   }
 
@@ -210,11 +224,11 @@ it("async listener dependencies", (): Promise<any> => {
     test: typeof test
     test2: typeof test2
 
-    listenerLoaded(
+    async listenerLoaded(
       lid: string[],
-      { instance }: ListenerEvent
-    ): void {
-      this.join(lid, instance.id, "test", "test2")
+      event: ListenerEvent
+    ): Promise<any> {
+      await this.join(lid, event, "test", "test2")
     }
   }
 
@@ -256,9 +270,9 @@ it("async listener dependency across distinct loads", (): Promise<
 
     listenerLoaded(
       lid: string[],
-      { instance, listener }: ListenerEvent
+      event: ListenerEvent
     ): void {
-      this.join(lid, instance.id, "test2.fn")
+      this.join(lid, event, "test2.fn")
     }
   }
 
@@ -295,11 +309,11 @@ it("async join callback", async (): Promise<any> => {
       expect(0).toBe(1)
     }
 
-    listenerLoaded(
+    async listenerLoaded(
       lid: string[],
-      { instance, listener }: ListenerEvent
-    ): void {
-      this.join(lid, instance.id, "test2.fn")
+      event: ListenerEvent
+    ): Promise<void> {
+      await this.join(lid, event, "test2.fn")
     }
   }
 
@@ -337,9 +351,9 @@ it("async listener dependency with join callback", (): Promise<
 
     listenerLoaded(
       lid: string[],
-      { instance, listener }: ListenerEvent
+      event: ListenerEvent
     ): void {
-      this.join(lid, instance.id, "test2")
+      this.join(lid, event, "test2")
     }
   }
 

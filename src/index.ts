@@ -28,10 +28,33 @@ export class Join {
   private resolvers: Record<string, Function> = {}
 
   public join(
-    lid: string[],
-    instanceId: string,
+    lid_: string[],
+    event: ListenerEvent,
     ...joins: ListenerJoins
-  ): void {
+  ): Promise<any> | void {
+    const id = lid_[1]
+    const { listener } = event
+
+    this.addJoins(event, joins)
+
+    listener.bind(
+      lid_,
+      [`${this.id}.join`, id, "**"],
+      [`${this.id}.buildJoinPromises`, { append: 0.1 }],
+      [`${this.id}.resolvePromise`, { append: 0.2 }],
+      [`${this.id}.waitForJoinPromises`, { append: 0.3 }],
+      [`${this.id}.applyJoins`, { append: 0.4 }],
+      [`${this.id}.callListenerJoined`, { append: 0.5 }]
+    )
+  }
+
+  private addJoins(
+    event: ListenerEvent,
+    joins: ListenerJoins
+  ): Promise<any> | void {
+    const { instance } = event
+    const instanceId = instance.id
+
     for (let join of joins) {
       const j = this.joins[instanceId]
       const o = this.options[instanceId]
@@ -129,9 +152,8 @@ export class Join {
 
   private buildJoinPromises(
     lid: string[],
-    { listener, instance, options }: ListenerEvent
+    { instance: { id }, listener }: ListenerEvent
   ): void | Promise<any> {
-    const id = lid[2]
     this.eachJoin(id, listener, ({ joinInstanceId }) => {
       if (!listener.instances[joinInstanceId]) {
         this.promise(joinInstanceId)
@@ -168,34 +190,8 @@ export class Join {
     listener.bind(
       lid,
       [`${listener.id}.listenerLoaded`, "**"],
-      [`${this.id}.assignJoin`, { prepend: 100 }],
-      [`${this.id}.buildJoinPromises`, { append: 100 }],
-      [`${this.id}.resolvePromise`, { append: 100.1 }],
-      [`${this.id}.waitForJoinPromises`, { append: 100.2 }],
-      [`${this.id}.applyJoins`, { append: 100.3 }],
-      [`${this.id}.callListenerJoined`, { append: 100.4 }]
+      [`${this.id}.assignJoin`, { prepend: 100 }]
     )
-  }
-
-  private listenersJoined(
-    lid: string[],
-    { listener, instance, options }: ListenerEvent
-  ): void | Promise<any> {
-    return
-  }
-
-  private listenerJoined(
-    lid: string[],
-    event: ListenerJoinEvent
-  ): void | Promise<any> {
-    return
-  }
-
-  private listenerJoins(
-    lid: string[],
-    event: ListenerEvent
-  ): void | Promise<any> {
-    return
   }
 
   private listenerReset(
